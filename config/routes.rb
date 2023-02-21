@@ -1,6 +1,8 @@
-Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+require 'api_version_constraint'
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+Rails.application.routes.draw do
+  namespace :api, defaults: { format: :json }, path: '/' do
+    namespace :v1, path: '/', constraints: ApiVersionConstraint.new(version: 1, default: true) do
+    end
+  end
 end
