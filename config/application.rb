@@ -5,6 +5,7 @@ require "rails/all"
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
+Dir['./lib/**/*.rb'].each { |file| require file }
 
 module QuestionsApi
   class Application < Rails::Application
