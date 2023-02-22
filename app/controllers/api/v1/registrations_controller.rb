@@ -1,6 +1,8 @@
 module Api
   module V1
     class RegistrationsController < ApplicationController
+      skip_before_action :autenticate!, only: :create
+
       def create
         user = User.new(user_params)
         if user.save
