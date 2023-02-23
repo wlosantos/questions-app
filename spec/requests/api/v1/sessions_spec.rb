@@ -17,10 +17,10 @@ RSpec.describe "Api::V1::Sessions", type: :request do
         expect(token).not_to be_falsey
       end
 
-      # it 'authenticates user with JWT token' do
-      #   get '/questions', headers: { 'Authorization' => "Bearer #{token}" }
-      #   expect(response).to have_http_status(:ok)
-      # end
+      it 'authenticates user with JWT token' do
+        get '/users', headers: { 'Authorization' => "Bearer #{token}" }
+        expect(response).to have_http_status(:ok)
+      end
     end
 
     context 'when the credentials are incorrect' do
