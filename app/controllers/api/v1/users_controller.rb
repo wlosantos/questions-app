@@ -10,10 +10,12 @@ module Api
       end
 
       def show
+        authorize @user
         render json: { user: @user }, status: :ok
       end
 
       def update
+        authorize @user
         if @user.update(user_params)
           render json: { user: @user }, status: :ok
         else
@@ -22,6 +24,7 @@ module Api
       end
 
       def destroy
+        authorize @user
         @user.destroy
         head 204
       end
