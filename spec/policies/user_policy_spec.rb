@@ -1,27 +1,63 @@
 require 'rails_helper'
 
 RSpec.describe UserPolicy, type: :policy do
-  # let(:user) { User.new }
+  let(:user) { create(:user) }
 
-  # subject { described_class }
+  subject { described_class }
 
-  # permissions ".scope" do
-  #   pending "add some examples to (or delete) #{__FILE__}"
-  # end
+  permissions :index? do
+    it 'denies access if user is not an admin' do
+      expect(subject).not_to permit(user)
+    end
 
-  # permissions :show? do
-  #   pending "add some examples to (or delete) #{__FILE__}"
-  # end
+    it 'grants access if user is an admin' do
+      user.add_role :admin
+      expect(subject).to permit(user)
+    end
+  end
 
-  # permissions :create? do
-  #   pending "add some examples to (or delete) #{__FILE__}"
-  # end
+  permissions :show? do
+    it 'grants access if user is an admin' do
+      user.add_role :admin
+      expect(subject).to permit(user)
+    end
 
-  # permissions :update? do
-  #   pending "add some examples to (or delete) #{__FILE__}"
-  # end
+    it 'grants access if user is the same as the record' do
+      expect(subject).to permit(user, user)
+    end
 
-  # permissions :destroy? do
-  #   pending "add some examples to (or delete) #{__FILE__}"
-  # end
+    it 'denies access if user is not an admin and not the same as the record' do
+      expect(subject).not_to permit(user)
+    end
+  end
+
+  permissions :update? do
+    it 'grants access if user is an admin' do
+      user.add_role :admin
+      expect(subject).to permit(user)
+    end
+
+    it 'grants access if user is the same as the record' do
+      expect(subject).to permit(user, user)
+    end
+
+    it 'denies access if user is not an admin and not the same as the record' do
+      expect(subject).not_to permit(user)
+    end
+  end
+
+  permissions :destroy? do
+    it 'grants access if user is an admin' do
+      user.add_role :admin
+      expect(subject).to permit(user)
+    end
+
+    it 'grants access if user is the same as the record' do
+      expect(subject).to permit(user, user)
+    end
+
+    it 'denies access if user is not an admin' do
+      expect(subject).not_to permit(user)
+    end
+  end
 end
