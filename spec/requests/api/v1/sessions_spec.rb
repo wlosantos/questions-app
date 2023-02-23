@@ -4,13 +4,13 @@ RSpec.describe "Api::V1::Sessions", type: :request do
   before { host! 'api.questions-api.io' }
 
   describe 'POST /sessions' do
-    let(:user) { create(:user) }
+    let(:user) { create(:user, :admin) }
 
     context 'when the credentials are correct' do
       before do
         post '/sessions', params: { email: user.email, password: user.password }
-        # token = JSON.parse(response.body)['token']
       end
+
       let(:token) { JSON.parse(response.body)['token'] }
 
       it 'returns a JWT token' do
