@@ -71,5 +71,21 @@ RSpec.describe User, type: :model do
         expect(user2.errors.full_messages.to_sentence).to match(/Email is invalid/)
       end
     end
+
+    context 'with admin role' do
+      let(:user) { create(:user, :admin) }
+
+      it 'should create user with admin role' do
+        expect(user.has_role?(:admin)).to be_truthy
+      end
+    end
+
+    context 'with participant role' do
+      let(:user) { create(:user) }
+
+      it 'should create user with participant role' do
+        expect(user.has_role?(:participant)).to be_truthy
+      end
+    end
   end
 end
