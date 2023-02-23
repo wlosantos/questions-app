@@ -13,14 +13,33 @@ RSpec.describe 'Users API', type: :request do
   end
 
   describe 'GET /users' do
-    before { get '/users', params: {}, headers: }
+    context 'when user is admin' do
+      before do
+        user.add_role :admin
+        get '/users', params: {}, headers:
+      end
 
-    it 'returns success status' do
-      expect(response).to have_http_status(:ok)
+      it 'returns success status' do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'returns all users' do
+        expect(json_body[:users].count).to eq(1)
+      end
     end
 
-    it 'returns all users' do
-      expect(json_body[:users].count).to eq(1)
+    context 'when user is not admin' do
+      before do
+        get '/users', params: {}, headers:
+      end
+
+      it 'returns unauthorized status' do
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'returns error message' do
+        expect(json_body[:error]).to eq('No Authorization!')
+      end
     end
   end
 

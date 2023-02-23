@@ -1,5 +1,9 @@
 class ApplicationController < ActionController::API
   include ActionController::HttpAuthentication::Token::ControllerMethods
+  include Pundit::Authorization
+
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+
   before_action :autenticate!
 
   private
@@ -11,5 +15,11 @@ class ApplicationController < ActionController::API
     rescue ExceptionHandler::InvalidToken
       render json: { error: 'Invalid token' }, status: :unauthorized
     end
+  end
+
+  attr_reader :current_user
+
+  def user_not_authorized
+    render json: { error: 'No Authorization!' }, status: :unauthorized
   end
 end
