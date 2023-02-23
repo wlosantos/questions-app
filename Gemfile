@@ -11,6 +11,7 @@ gem 'rails', '~> 7.0.4', '>= 7.0.4.2'
 
 gem 'bcrypt', '~> 3.1.7'
 gem 'jwt'
+gem 'pundit'
 gem 'rack-cors'
 gem 'rolify'
 
