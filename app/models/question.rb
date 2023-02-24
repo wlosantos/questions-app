@@ -1,6 +1,7 @@
 class Question < ApplicationRecord
   belongs_to :exam
   belongs_to :user
+  has_many :answers, dependent: :destroy
 
   enum status: { blocked: 0, active: 1 }
 
