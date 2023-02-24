@@ -25,6 +25,18 @@ RSpec.describe "Api::V1::SchoolSubjects", type: :request do
     it 'returns all school subjects' do
       expect(json_body[:school_subjects].count).to eq(1)
     end
+
+    context 'when user is not admin' do
+      let!(:user) { create(:user, name: 'Wendel Lopes', username: 'wendellopes') }
+
+      it 'returns forbidden status' do
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'returns error message' do
+        expect(json_body[:error]).to eq('No Authorization!')
+      end
+    end
   end
 
   describe 'POST /school_subjects' do

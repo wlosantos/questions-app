@@ -1,17 +1,17 @@
 class UserPolicy < ApplicationPolicy
   def index?
-    user.has_role?(:admin)
+    permissions?
   end
 
   def show?
-    user.has_role?(:admin) || user == record
+    permissions? || user == record
   end
 
   def update?
-    user.has_role?(:admin) || user == record
+    permissions? || user == record
   end
 
   def destroy?
-    user.has_role?(:admin) || user == record
+    permissions? || user == record
   end
 end
