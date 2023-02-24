@@ -5,16 +5,19 @@ module Api
       before_action :set_answer, only: [:show, :update, :destroy]
 
       def index
-        @answers = @question.answers
-        render json: { answers: @answers }, status: :ok
+        answers = @question.answers
+        authorize answers
+        render json: { answers: }, status: :ok
       end
 
       def show
+        authorize @answer
         render json: { answer: @answer }, status: :ok
       end
 
       def create
         @answer = @question.answers.new(answer_params)
+        authorize @answer
         if @answer.save
           render json: { answer: @answer }, status: :ok
         else
@@ -23,6 +26,7 @@ module Api
       end
 
       def update
+        authorize @answer
         if @answer.update(answer_params)
           render json: { answer: @answer }, status: :ok
         else
@@ -31,6 +35,7 @@ module Api
       end
 
       def destroy
+        authorize @answer
         @answer.destroy
         head :no_content
       end
