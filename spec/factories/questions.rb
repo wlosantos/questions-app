@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :question do
     description { Faker::Lorem.paragraph }
-    status { Status.list.sample }
+    status { %i[blocked active].sample }
     value { rand(0...10) }
     exam
     user

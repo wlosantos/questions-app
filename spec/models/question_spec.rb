@@ -4,7 +4,7 @@ RSpec.describe Question, type: :model do
   describe 'database' do
     context 'columns' do
       it { is_expected.to have_db_column(:description).of_type(:text).with_options(null: false) }
-      it { is_expected.to have_db_column(:status).of_type(:string).with_options(null: false) }
+      it { is_expected.to have_db_column(:status).of_type(:integer).with_options(null: false) }
       it { is_expected.to have_db_column(:value).of_type(:integer).with_options(null: false) }
     end
 

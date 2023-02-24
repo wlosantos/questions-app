@@ -26,7 +26,7 @@ ActiveRecord::Schema[7.0].define(version: 20_230_224_051_239) do
 
   create_table "questions", force: :cascade do |t|
     t.text "description", null: false
-    t.string "status", null: false
+    t.integer "status", default: 0, null: false
     t.integer "value", default: 0, null: false
     t.bigint "exam_id", null: false
     t.bigint "user_id", null: false
