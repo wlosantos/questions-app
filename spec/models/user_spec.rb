@@ -10,6 +10,11 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe 'associations' do
+    it { is_expected.to have_many(:exams) }
+    it { is_expected.to have_many(:questions) }
+  end
+
   describe 'validations' do
     let!(:user) { create(:user) }
     context 'email' do
