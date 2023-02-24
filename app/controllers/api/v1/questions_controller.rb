@@ -5,15 +5,18 @@ module Api
 
       def index
         questions = Question.all
+        authorize questions
         render json: { questions: }, status: :ok
       end
 
       def show
+        authorize @question
         render json: { question: @question }, status: :ok
       end
 
       def create
         question = current_user.questions.build(question_params)
+        authorize question
         if question.save
           render json: { question: }, status: :ok
         else
@@ -22,6 +25,7 @@ module Api
       end
 
       def update
+        authorize @question
         if @question.update(question_params)
           render json: { question: @question }, status: :ok
         else
@@ -30,6 +34,7 @@ module Api
       end
 
       def destroy
+        authorize @question
         @question.destroy
         head :no_content
       end
