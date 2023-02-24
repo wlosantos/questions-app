@@ -3,17 +3,17 @@ require 'rails_helper'
 RSpec.describe Answer, type: :model do
   describe 'database' do
     context 'must be present' do
-      it { should have_db_column(:description).of_type(:string).with_options(null: false) }
-      it { should have_db_column(:correct).of_type(:boolean).with_options(null: false, default: false) }
+      it { is_expected.to have_db_column(:description).of_type(:string).with_options(null: false) }
+      it { is_expected.to have_db_column(:correct).of_type(:boolean).with_options(null: false, default: false) }
     end
   end
 
   describe 'associations' do
-    it { should belong_to(:question) }
+    it { is_expected.to belong_to(:question) }
   end
 
   describe 'validations' do
-    it { should validate_presence_of(:description) }
+    it { is_expected.to validate_presence_of(:description) }
   end
 
   describe 'create answer' do

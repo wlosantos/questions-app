@@ -14,15 +14,18 @@ RSpec.describe "Api::V1::Answers", type: :request do
   end
 
   describe 'GET /questions/:question_id/answers' do
-    let!(:answers) { create_list(:answer, 5, question:) }
-    before { get "/questions/#{question.id}/answers", params: {}, headers: }
+    before do
+      create(:answer, question:)
+      create(:answer, correct: true, question:)
+      get "/questions/#{question.id}/answers", params: {}, headers:
+    end
 
     it 'returns success status' do
       expect(response).to have_http_status(:ok)
     end
 
     it 'returns all answers' do
-      expect(json_body[:answers].count).to eq(5)
+      expect(json_body[:answers].count).to eq(2)
     end
   end
 
