@@ -1,0 +1,5 @@
+en:
+  enumerations:
+    status:
+      active: 'Active'
+      blocked: 'Blocked'

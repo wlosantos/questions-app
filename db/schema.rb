@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 20_230_224_022_443) do
+ActiveRecord::Schema[7.0].define(version: 20_230_224_051_239) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -22,6 +22,18 @@ ActiveRecord::Schema[7.0].define(version: 20_230_224_022_443) do
     t.datetime "updated_at", null: false
     t.index ["school_subject_id"], name: "index_exams_on_school_subject_id"
     t.index ["user_id"], name: "index_exams_on_user_id"
+  end
+
+  create_table "questions", force: :cascade do |t|
+    t.text "description", null: false
+    t.integer "status", default: 0, null: false
+    t.integer "value", default: 0, null: false
+    t.bigint "exam_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["exam_id"], name: "index_questions_on_exam_id"
+    t.index ["user_id"], name: "index_questions_on_user_id"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -59,4 +71,6 @@ ActiveRecord::Schema[7.0].define(version: 20_230_224_022_443) do
 
   add_foreign_key "exams", "school_subjects"
   add_foreign_key "exams", "users"
+  add_foreign_key "questions", "exams"
+  add_foreign_key "questions", "users"
 end

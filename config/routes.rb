@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       resources :users, only: [:index, :show, :update, :destroy]
       resources :school_subjects, only: [:index, :create, :update, :destroy]
       resources :exams, only: [:index, :show, :create, :update, :destroy]
+      resources :questions, only: [:index, :show, :create, :update, :destroy]
     end
   end
 end
