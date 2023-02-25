@@ -1,17 +1,19 @@
 module Api
   module V1
     class AnswersController < ApplicationController
+      include Paginable
+
       before_action :set_question
       before_action :set_answer, only: [:show, :update, :destroy]
 
       def index
         answers = if params[:q].present?
-                    @question.answers.ransack(params[:q]).result
+                    @question.answers.ransack(params[:q]).result(distinct: true).page(current_page).per(per_page)
                   else
-                    @question.answers
+                    @question.answers.page(current_page).per(per_page)
                   end
         authorize answers
-        render json: { answers: }, status: :ok
+        render json: { answers:, meta: meta_attributes(answers) }, status: :ok
       end
 
       def show

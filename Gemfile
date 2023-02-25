@@ -16,6 +16,8 @@ gem 'rack-cors'
 gem 'ransack'
 gem 'rolify'
 
+gem 'kaminari'
+
 gem 'bootsnap', require: false
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
