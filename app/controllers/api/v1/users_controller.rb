@@ -1,12 +1,18 @@
 module Api
   module V1
     class UsersController < ApplicationController
+      include Paginable
+
       before_action :set_user, only: [:show, :update, :destroy]
 
       def index
-        users = policy_scope(User.all)
+        users = if params[:q].present?
+                  User.ransack(params[:q]).result(distinct: true).page(current_page).per(per_page)
+                else
+                  User.page(current_page).per(per_page)
+                end
         authorize users
-        render json: { users: }, status: :ok
+        render json: { users:, meta: meta_attributes(users) }, status: :ok
       end
 
       def show

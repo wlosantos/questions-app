@@ -11,6 +11,10 @@ class User < ApplicationRecord
 
   after_create :assign_default_role
 
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[email name username]
+  end
+
   private
 
   def assign_default_role

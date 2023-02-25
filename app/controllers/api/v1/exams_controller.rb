@@ -1,12 +1,18 @@
 module Api
   module V1
     class ExamsController < ApplicationController
+      include Paginable
+
       before_action :set_exams, only: [:show, :update, :destroy]
 
       def index
-        exams = Exam.all
+        exams = if params[:q].present?
+                  Exam.ransack(params[:q]).result(distinct: true).page(current_page).per(per_page)
+                else
+                  Exam.page(current_page).per(per_page)
+                end
         authorize exams
-        render json: { exams: }, status: :ok
+        render json: { exams:, meta: meta_attributes(exams) }, status: :ok
       end
 
       def show

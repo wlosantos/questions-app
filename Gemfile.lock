@@ -104,6 +104,18 @@ GEM
       concurrent-ruby (~> 1.0)
     json (2.6.3)
     jwt (2.7.0)
+    kaminari (1.2.2)
+      activesupport (>= 4.1.0)
+      kaminari-actionview (= 1.2.2)
+      kaminari-activerecord (= 1.2.2)
+      kaminari-core (= 1.2.2)
+    kaminari-actionview (1.2.2)
+      actionview
+      kaminari-core (= 1.2.2)
+    kaminari-activerecord (1.2.2)
+      activerecord
+      kaminari-core (= 1.2.2)
+    kaminari-core (1.2.2)
     launchy (2.5.2)
       addressable (~> 2.8)
     letter_opener (1.8.1)
@@ -182,6 +194,10 @@ GEM
       zeitwerk (~> 2.5)
     rainbow (3.1.1)
     rake (13.0.6)
+    ransack (4.0.0)
+      activerecord (>= 6.1.5)
+      activesupport (>= 6.1.5)
+      i18n
     regexp_parser (2.7.0)
     rexml (3.2.5)
     rolify (6.0.1)
@@ -247,6 +263,7 @@ DEPENDENCIES
   factory_bot_rails
   faker
   jwt
+  kaminari
   letter_opener
   pg (~> 1.1)
   pry-byebug
@@ -254,6 +271,7 @@ DEPENDENCIES
   pundit
   rack-cors
   rails (~> 7.0.4, >= 7.0.4.2)
+  ransack
   rolify
   rspec-rails
   rubocop

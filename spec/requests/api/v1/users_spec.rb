@@ -41,6 +41,24 @@ RSpec.describe 'Users API', type: :request do
         expect(json_body[:error]).to eq('No Authorization!')
       end
     end
+
+    context 'when filter params are sent' do
+      let(:user1) { create(:user, name: 'Wendel Santos', username: 'wendellopes') }
+      let(:user2) { create(:user, name: 'Nadia Santos', username: 'nadianunes') }
+
+      before do
+        user.add_role :admin
+        get '/users?q[name_cont]=Wendel&q[s]=name+ASC', params: {}, headers:
+      end
+
+      it 'returns success status' do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'returns the filtered users' do
+        expect(json_body[:users].count).to eq(1)
+      end
+    end
   end
 
   describe 'GET /users/:id' do
