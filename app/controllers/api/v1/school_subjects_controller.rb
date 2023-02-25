@@ -1,11 +1,13 @@
 module Api
   module V1
     class SchoolSubjectsController < ApplicationController
+      include Paginable
+
       before_action :set_school_subject, only: [:update, :destroy]
       def index
-        school_subjects = SchoolSubject.all
+        school_subjects = SchoolSubject.page(current_page).per(per_page)
         authorize school_subjects
-        render json: { school_subjects: }, status: :ok
+        render json: { school_subjects:, meta: meta_attributes(school_subjects) }, status: :ok
       end
 
       def create
