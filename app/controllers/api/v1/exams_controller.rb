@@ -4,7 +4,11 @@ module Api
       before_action :set_exams, only: [:show, :update, :destroy]
 
       def index
-        exams = Exam.all
+        exams = if params[:q].present?
+                  Exam.ransack(params[:q]).result
+                else
+                  Exam.all
+                end
         authorize exams
         render json: { exams: }, status: :ok
       end
