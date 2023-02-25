@@ -6,6 +6,10 @@ class Answer < ApplicationRecord
 
   before_validation :only_correct_answer
 
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[description correct]
+  end
+
   private
 
   def only_correct_answer

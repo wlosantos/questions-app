@@ -5,7 +5,11 @@ module Api
       before_action :set_answer, only: [:show, :update, :destroy]
 
       def index
-        answers = @question.answers
+        answers = if params[:q].present?
+                    @question.answers.ransack(params[:q]).result
+                  else
+                    @question.answers
+                  end
         authorize answers
         render json: { answers: }, status: :ok
       end
