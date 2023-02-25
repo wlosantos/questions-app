@@ -4,7 +4,11 @@ module Api
       before_action :set_user, only: [:show, :update, :destroy]
 
       def index
-        users = policy_scope(User.all)
+        users = if params[:q].present?
+                  User.ransack(params[:q]).result
+                else
+                  User.all
+                end
         authorize users
         render json: { users: }, status: :ok
       end
