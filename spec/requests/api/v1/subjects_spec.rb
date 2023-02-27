@@ -23,7 +23,7 @@ RSpec.describe "Api::V1::Subjects", type: :request do
     end
 
     it 'returns all school subjects' do
-      expect(json_body[:subjects].count).to eq(1)
+      expect(json_body[:data].size).to eq(1)
     end
 
     context 'when user is not admin' do
@@ -52,7 +52,7 @@ RSpec.describe "Api::V1::Subjects", type: :request do
       end
 
       it 'returns the school subject' do
-        expect(json_body[:subject][:name]).to eq(subject_params[:name])
+        expect(json_body[:data][:attributes][:name]).to eq(subject_params[:name])
       end
     end
 
@@ -88,7 +88,7 @@ RSpec.describe "Api::V1::Subjects", type: :request do
       end
 
       it 'returns the school subject' do
-        expect(json_body[:subject][:name]).to eq('New name')
+        expect(json_body[:data][:attributes][:name]).to eq('New name')
       end
     end
 
