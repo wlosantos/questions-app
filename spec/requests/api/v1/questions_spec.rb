@@ -22,25 +22,25 @@ RSpec.describe "Api::V1::Questions", type: :request do
     end
 
     it 'returns all questions' do
-      expect(json_body[:questions].count).to eq(1)
+      expect(json_body[:data].count).to eq(1)
     end
   end
 
   describe 'GET /questions/:id' do
     let!(:question) { create(:question, exam:) }
-    before { get "/questions/#{question.id}", params: {}, headers: }
+    before { get "/exams/#{exam.id}/questions/#{question.id}", params: {}, headers: }
 
     it 'returns success status' do
       expect(response).to have_http_status(:ok)
     end
 
     it 'returns the question' do
-      expect(json_body[:question][:ask]).to eq(question.ask)
+      expect(json_body[:data][:attributes][:ask]).to eq(question.ask)
     end
   end
 
   describe 'POST /questions' do
-    before { post '/questions', params: question_params.to_json, headers: }
+    before { post "/exams/#{exam.id}/questions", params: question_params.to_json, headers: }
 
     context 'when params are valid' do
       let(:question_params) { attributes_for(:question, exam_id: exam.id) }
@@ -50,7 +50,7 @@ RSpec.describe "Api::V1::Questions", type: :request do
       end
 
       it 'returns the question' do
-        expect(json_body[:question][:ask]).to eq(question_params[:ask])
+        expect(json_body[:data][:attributes][:ask]).to eq(question_params[:ask])
       end
     end
 
@@ -79,7 +79,7 @@ RSpec.describe "Api::V1::Questions", type: :request do
       end
 
       it 'returns the question' do
-        expect(json_body[:question][:ask]).to eq(question_params[:ask])
+        expect(json_body[:data][:attributes][:ask]).to eq(question_params[:ask])
       end
     end
 
