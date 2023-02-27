@@ -24,7 +24,7 @@ RSpec.describe 'Users API', type: :request do
       end
 
       it 'returns all users' do
-        expect(json_body[:users].count).to eq(1)
+        expect(json_body[:data].size).to eq(1)
       end
     end
 
@@ -56,7 +56,7 @@ RSpec.describe 'Users API', type: :request do
       end
 
       it 'returns the filtered users' do
-        expect(json_body[:users].count).to eq(1)
+        expect(json_body[:data].count).to eq(1)
       end
     end
   end

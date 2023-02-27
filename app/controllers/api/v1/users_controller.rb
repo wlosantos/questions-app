@@ -12,7 +12,7 @@ module Api
                   User.page(current_page).per(per_page)
                 end
         authorize users
-        render json: { users:, meta: meta_attributes(users) }, status: :ok
+        render json: users, meta: meta_attributes(users), status: :ok
       end
 
       def show
