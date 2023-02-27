@@ -10,6 +10,10 @@ class Answer < ApplicationRecord
     %w[response corrected]
   end
 
+  def self.ransackable_associations(_auth_object = nil)
+    ["question"]
+  end
+
   private
 
   def only_corrected_answer

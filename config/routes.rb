@@ -7,10 +7,13 @@ Rails.application.routes.draw do
       resource :sessions, only: [:create]
       resources :users, only: [:index, :show, :update, :destroy]
       resources :subjects, only: [:index, :create, :update, :destroy]
-      resources :exams, only: [:index, :show, :create, :update, :destroy]
-      resources :questions, only: [:index, :show, :create, :update, :destroy] do
-        resources :answers, only: [:index, :show, :create, :update, :destroy]
+      resources :exams, only: [:index, :show, :create, :update, :destroy] do
+        resources :questions, only: [:show, :create]
       end
+      resources :questions, only: [:index, :update, :destroy] do
+        resources :answers, only: [:create]
+      end
+      resources :answers, only: [:show, :index, :update, :destroy]
     end
   end
 end

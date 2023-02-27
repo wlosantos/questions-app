@@ -13,11 +13,11 @@ RSpec.describe "Api::V1::Answers", type: :request do
     }
   end
 
-  describe 'GET /questions/:question_id/answers' do
+  describe 'GET /answers' do
     before do
       create(:answer, question:)
       create(:answer, corrected: true, question:)
-      get "/questions/#{question.id}/answers", params: {}, headers:
+      get '/answers', params: {}, headers:
     end
 
     it 'returns success status' do
@@ -25,20 +25,20 @@ RSpec.describe "Api::V1::Answers", type: :request do
     end
 
     it 'returns all answers' do
-      expect(json_body[:answers].count).to eq(2)
+      expect(json_body[:data].size).to eq(2)
     end
   end
 
-  describe 'GET /questions/:question_id/answers/:id' do
+  describe 'GET answers/:id' do
     let!(:answer) { create(:answer, question:) }
-    before { get "/questions/#{question.id}/answers/#{answer.id}", params: {}, headers: }
+    before { get "/answers/#{answer.id}", params: {}, headers: }
 
     it 'returns success status' do
       expect(response).to have_http_status(:ok)
     end
 
     it 'returns the answer' do
-      expect(json_body[:answer][:response]).to eq(answer.response)
+      expect(json_body[:data][:attributes][:response]).to eq(answer.response)
     end
   end
 
@@ -57,7 +57,7 @@ RSpec.describe "Api::V1::Answers", type: :request do
       end
 
       it 'returns the json for created answer' do
-        expect(json_body[:answer][:response]).to eq(answer_params[:response])
+        expect(json_body[:data][:attributes][:response]).to eq(answer_params[:response])
       end
     end
 
@@ -78,10 +78,10 @@ RSpec.describe "Api::V1::Answers", type: :request do
     end
   end
 
-  describe 'PUT /questions/:question_id/answers/:id' do
+  describe 'PUT /answers/:id' do
     let!(:answer) { create(:answer, question:) }
 
-    before { put "/questions/#{question.id}/answers/#{answer.id}", params: { answer: answer_params }.to_json, headers: }
+    before { put "/answers/#{answer.id}", params: { answer: answer_params }.to_json, headers: }
 
     context 'when the params are valid' do
       let(:answer_params) { { response: 'New answer response' } }
@@ -91,7 +91,7 @@ RSpec.describe "Api::V1::Answers", type: :request do
       end
 
       it 'returns the json for updated answer' do
-        expect(json_body[:answer][:response]).to eq(answer_params[:response])
+        expect(json_body[:data][:attributes][:response]).to eq(answer_params[:response])
       end
 
       it 'updates the answer in the database' do
@@ -116,10 +116,10 @@ RSpec.describe "Api::V1::Answers", type: :request do
     end
   end
 
-  describe 'DELETE /questions/:question_id/answers/:id' do
+  describe 'DELETE /answers/:id' do
     let!(:answer) { create(:answer, question:) }
 
-    before { delete "/questions/#{question.id}/answers/#{answer.id}", params: {}, headers: }
+    before { delete "/answers/#{answer.id}", params: {}, headers: }
 
     it 'returns success status' do
       expect(response).to have_http_status(:no_content)

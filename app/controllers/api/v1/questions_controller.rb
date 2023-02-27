@@ -4,6 +4,7 @@ module Api
       include Paginable
 
       before_action :set_question, only: [:show, :update, :destroy]
+      before_action :set_exam, except: [:index, :update, :destroy]
 
       def index
         questions = if params[:q].present?
@@ -12,19 +13,19 @@ module Api
                       Question.page(current_page).per(per_page)
                     end
         authorize questions
-        render json: { questions:, meta: meta_attributes(questions) }, status: :ok # add adapter: :json with serializer
+        render json: questions, meta: meta_attributes(questions), status: :ok
       end
 
       def show
         authorize @question
-        render json: { question: @question }, status: :ok
+        render json: @question, status: :ok
       end
 
       def create
-        question = Question.new(question_params)
+        question = @exam.questions.new(question_params)
         authorize question
         if question.save
-          render json: { question: }, status: :ok
+          render json: question, status: :ok
         else
           render json: { errors: question.errors }, status: :unprocessable_entity
         end
@@ -33,7 +34,7 @@ module Api
       def update
         authorize @question
         if @question.update(question_params)
-          render json: { question: @question }, status: :ok
+          render json: @question, status: :ok
         else
           render json: { errors: @question.errors }, status: :unprocessable_entity
         end
@@ -49,6 +50,10 @@ module Api
 
       def set_question
         @question = Question.find(params[:id])
+      end
+
+      def set_exam
+        @exam = Exam.find(params[:exam_id])
       end
 
       def question_params

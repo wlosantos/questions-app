@@ -12,18 +12,18 @@ module Api
                   User.page(current_page).per(per_page)
                 end
         authorize users
-        render json: { users:, meta: meta_attributes(users) }, status: :ok
+        render json: users, meta: meta_attributes(users), status: :ok
       end
 
       def show
         authorize @user
-        render json: { user: @user }, status: :ok
+        render json: @user, status: :ok
       end
 
       def update
         authorize @user
         if @user.update(user_params)
-          render json: { user: @user }, status: :ok
+          render json: @user, status: :ok
         else
           render json: { errors: @user.errors }, status: :unprocessable_entity
         end

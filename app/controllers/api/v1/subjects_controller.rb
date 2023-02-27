@@ -7,13 +7,13 @@ module Api
       def index
         subjects = Subject.page(current_page).per(per_page)
         authorize subjects
-        render json: { subjects:, meta: meta_attributes(subjects) }, status: :ok
+        render json: subjects, meta: meta_attributes(subjects), status: :ok
       end
 
       def create
         subject = Subject.new(subject_params)
         if subject.save
-          render json: { subject: }, status: :ok
+          render json: subject, status: :ok
         else
           render json: { errors: subject.errors }, status: :unprocessable_entity
         end
@@ -22,7 +22,7 @@ module Api
       def update
         authorize @subject
         if @subject.update(subject_params)
-          render json: { subject: @subject }, status: :ok
+          render json: @subject, status: :ok
         else
           render json: { errors: @subject.errors }, status: :unprocessable_entity
         end
