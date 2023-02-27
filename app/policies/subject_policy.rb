@@ -1,4 +1,4 @@
-class SchoolSubjectPolicy < ApplicationPolicy
+class SubjectPolicy < ApplicationPolicy
   def index?
     permissions?
   end
