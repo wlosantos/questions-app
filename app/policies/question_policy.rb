@@ -12,10 +12,10 @@ class QuestionPolicy < ApplicationPolicy
   end
 
   def update?
-    permissions? || user == record.user
+    permissions?
   end
 
   def destroy?
-    permissions? || user == record.user
+    permissions?
   end
 end

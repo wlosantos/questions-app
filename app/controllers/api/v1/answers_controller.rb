@@ -57,7 +57,7 @@ module Api
       end
 
       def answer_params
-        params.require(:answer).permit(:description, :correct)
+        params.require(:answer).permit(:response, :corrected)
       end
     end
   end

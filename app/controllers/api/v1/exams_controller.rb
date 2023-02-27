@@ -21,7 +21,7 @@ module Api
       end
 
       def create
-        exam = current_user.exams.new(exam_params)
+        exam = Exam.new(exam_params)
         authorize exam
         if exam.save
           render json: { exam: }, status: :ok
@@ -52,7 +52,7 @@ module Api
       end
 
       def exam_params
-        params.require(:exam).permit(:title, :school_subject_id)
+        params.require(:exam).permit(:theme, :subject_id, :finished)
       end
     end
   end

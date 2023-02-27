@@ -1,20 +1,20 @@
 class Answer < ApplicationRecord
   belongs_to :question
 
-  validates :description, presence: true
-  validates :correct, inclusion: { in: [true, false] }
+  validates :response, presence: true
+  validates :corrected, inclusion: { in: [true, false] }
 
-  before_validation :only_correct_answer
+  before_validation :only_corrected_answer
 
   def self.ransackable_attributes(_auth_object = nil)
-    %w[description correct]
+    %w[response corrected]
   end
 
   private
 
-  def only_correct_answer
-    return unless correct
+  def only_corrected_answer
+    return unless corrected
 
-    question.answers.where(correct: true).update_all(correct: false)
+    question.answers.where(corrected: true).update_all(corrected: false)
   end
 end

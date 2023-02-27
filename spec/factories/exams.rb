@@ -1,7 +1,8 @@
 FactoryBot.define do
   factory :exam do
-    title { Faker::Lorem.sentence }
-    school_subject
-    user
+    theme { Faker::Lorem.sentence }
+    status { %i[pending waiting approved rejected].sample }
+    finished { nil }
+    subject
   end
 end
