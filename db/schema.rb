@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 20_230_224_163_209) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_27_181155) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "answers", force: :cascade do |t|
-    t.string "description", null: false
+    t.string "response", null: false
     t.boolean "correct", default: false, null: false
     t.bigint "question_id", null: false
     t.datetime "created_at", null: false
@@ -24,25 +24,21 @@ ActiveRecord::Schema[7.0].define(version: 20_230_224_163_209) do
   end
 
   create_table "exams", force: :cascade do |t|
-    t.string "title", null: false
-    t.bigint "school_subject_id", null: false
-    t.bigint "user_id", null: false
+    t.string "theme", null: false
+    t.integer "status", default: 0
+    t.datetime "finished"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["school_subject_id"], name: "index_exams_on_school_subject_id"
-    t.index ["user_id"], name: "index_exams_on_user_id"
+    t.bigint "subject_id", null: false
+    t.index ["subject_id"], name: "index_exams_on_subject_id"
   end
 
   create_table "questions", force: :cascade do |t|
-    t.text "description", null: false
-    t.integer "status", default: 0, null: false
-    t.integer "value", default: 0, null: false
+    t.string "ask", null: false
     t.bigint "exam_id", null: false
-    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["exam_id"], name: "index_questions_on_exam_id"
-    t.index ["user_id"], name: "index_questions_on_user_id"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -51,11 +47,11 @@ ActiveRecord::Schema[7.0].define(version: 20_230_224_163_209) do
     t.bigint "resource_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index %w[name resource_type resource_id], name: "index_roles_on_name_and_resource_type_and_resource_id"
-    t.index %w[resource_type resource_id], name: "index_roles_on_resource"
+    t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id"
+    t.index ["resource_type", "resource_id"], name: "index_roles_on_resource"
   end
 
-  create_table "school_subjects", force: :cascade do |t|
+  create_table "subjects", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -74,13 +70,11 @@ ActiveRecord::Schema[7.0].define(version: 20_230_224_163_209) do
     t.bigint "user_id"
     t.bigint "role_id"
     t.index ["role_id"], name: "index_users_roles_on_role_id"
-    t.index %w[user_id role_id], name: "index_users_roles_on_user_id_and_role_id"
+    t.index ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id"
     t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
   add_foreign_key "answers", "questions"
-  add_foreign_key "exams", "school_subjects"
-  add_foreign_key "exams", "users"
+  add_foreign_key "exams", "subjects"
   add_foreign_key "questions", "exams"
-  add_foreign_key "questions", "users"
 end
