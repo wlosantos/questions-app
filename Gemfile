@@ -9,6 +9,7 @@ gem 'pg', '~> 1.1'
 gem 'puma', '~> 5.0'
 gem 'rails', '~> 7.0.4', '>= 7.0.4.2'
 
+gem 'active_model_serializers'
 gem 'bcrypt', '~> 3.1.7'
 gem 'jwt'
 gem 'pundit'
