@@ -17,13 +17,13 @@ module Api
 
       def show
         authorize @user
-        render json: { user: @user }, status: :ok
+        render json: @user, status: :ok
       end
 
       def update
         authorize @user
         if @user.update(user_params)
-          render json: { user: @user }, status: :ok
+          render json: @user, status: :ok
         else
           render json: { errors: @user.errors }, status: :unprocessable_entity
         end
