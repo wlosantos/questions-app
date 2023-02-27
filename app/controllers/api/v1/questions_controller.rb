@@ -21,7 +21,7 @@ module Api
       end
 
       def create
-        question = current_user.questions.build(question_params)
+        question = Question.new(question_params)
         authorize question
         if question.save
           render json: { question: }, status: :ok
@@ -52,7 +52,7 @@ module Api
       end
 
       def question_params
-        params.require(:question).permit(:title, :description, :status, :exam_id, :value)
+        params.require(:question).permit(:ask, :exam_id)
       end
     end
   end
