@@ -22,7 +22,7 @@ RSpec.describe "Api::V1::Exams", type: :request do
     end
 
     it 'returns all exams' do
-      expect(json_body[:exams].count).to eq(1)
+      expect(json_body[:data].size).to eq(1)
     end
   end
 
@@ -35,7 +35,7 @@ RSpec.describe "Api::V1::Exams", type: :request do
     end
 
     it 'returns the exam' do
-      expect(json_body[:exam][:theme]).to eq(exam.theme)
+      expect(json_body[:data][:attributes][:theme]).to eq(exam.theme)
     end
   end
 
@@ -50,7 +50,7 @@ RSpec.describe "Api::V1::Exams", type: :request do
       end
 
       it 'returns the exam' do
-        expect(json_body[:exam][:theme]).to eq(exam_params[:theme])
+        expect(json_body[:data][:attributes][:theme]).to eq(exam_params[:theme])
       end
     end
 
@@ -82,7 +82,7 @@ RSpec.describe "Api::V1::Exams", type: :request do
       end
 
       it 'returns the updated exam' do
-        expect(json_body[:exam][:theme]).to eq('New theme')
+        expect(json_body[:data][:attributes][:theme]).to eq('New theme')
       end
     end
 
