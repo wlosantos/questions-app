@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_27_181155) do
+ActiveRecord::Schema[7.0].define(version: 20_230_227_181_155) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "answers", force: :cascade do |t|
     t.string "response", null: false
-    t.boolean "correct", default: false, null: false
+    t.boolean "corrected", default: false, null: false
     t.bigint "question_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -47,8 +47,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_27_181155) do
     t.bigint "resource_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id"
-    t.index ["resource_type", "resource_id"], name: "index_roles_on_resource"
+    t.index %w[name resource_type resource_id], name: "index_roles_on_name_and_resource_type_and_resource_id"
+    t.index %w[resource_type resource_id], name: "index_roles_on_resource"
   end
 
   create_table "subjects", force: :cascade do |t|
@@ -70,7 +70,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_27_181155) do
     t.bigint "user_id"
     t.bigint "role_id"
     t.index ["role_id"], name: "index_users_roles_on_role_id"
-    t.index ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id"
+    t.index %w[user_id role_id], name: "index_users_roles_on_user_id_and_role_id"
     t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
