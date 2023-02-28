@@ -17,7 +17,7 @@ module Api
 
       def show
         authorize @exam
-        render json: @exam, status: :ok
+        render json: @exam, serializer: ExamSerializer, show_detail: true, status: :ok
       end
 
       def create
