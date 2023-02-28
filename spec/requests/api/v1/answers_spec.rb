@@ -25,7 +25,7 @@ RSpec.describe "Api::V1::Answers", type: :request do
     end
 
     it 'returns all answers' do
-      expect(json_body[:data].size).to eq(2)
+      expect(json_body[:data].size).to eq(3)
     end
   end
 
