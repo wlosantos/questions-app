@@ -29,4 +29,15 @@ RSpec.describe UserExam, type: :model do
       expect(user_exam).to be_valid
     end
   end
+
+  describe 'when user exam exist' do
+    let(:user) { create(:user) }
+    let(:exam) { create(:exam) }
+    let(:user_exam) { create(:user_exam, user:, exam:) }
+
+    it 'should be invalid' do
+      expect(user_exam).to be_valid
+      expect { create(:user_exam, user:, exam:) }.to raise_error(ActiveRecord::RecordInvalid)
+    end
+  end
 end
