@@ -1,6 +1,8 @@
 require 'api_version_constraint'
 
 Rails.application.routes.draw do
+  mount Rswag::Ui::Engine => '/api-docs'
+  mount Rswag::Api::Engine => '/api-docs'
   namespace :api, defaults: { format: :json }, path: '/' do
     namespace :v1, path: '/', constraints: ApiVersionConstraint.new(version: 1, default: true) do
       resource :registrations, only: [:create]

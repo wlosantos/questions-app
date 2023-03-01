@@ -1,0 +1,49 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/registrations":
+    post:
+      summary: Creates a registration
+      tags:
+      - Registrations
+      parameters: []
+      responses:
+        '201':
+          description: registration created
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                registrations:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    email:
+                      type: string
+                    username:
+                      type: string
+                    password:
+                      type: string
+                    password_confirmation:
+                      type: string
+                  required:
+                  - name
+                  - email
+                  - username
+                  - password
+                  - password_confirmation
+              required:
+              - registrations
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: www.example.com
