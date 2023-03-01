@@ -24,11 +24,13 @@ describe 'Registrations API' do
       }
 
       response '201', 'registration created' do
+        let(:Authorization) { '' }
         let(:user) { { user: attributes_for(:user) } }
         run_test!
       end
 
       response '422', 'invalid request' do
+        let(:Authorization) { '' }
         let(:user) { { user: attributes_for(:user, username: nil) } }
         run_test!
       end
