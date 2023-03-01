@@ -3,6 +3,17 @@ openapi: 3.0.1
 info:
   title: Questions API
   version: v1
+  description: API for questions and answers for the Fractal Company
+components:
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+security:
+- Bearer: []
 paths:
   "/registrations":
     post:
@@ -64,6 +75,48 @@ paths:
               required:
               - email
               - password
+  "/subjects":
+    get:
+      summary: Retrieves all school subjects
+      tags:
+      - Subjects
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: subjects found
+          content:
+            application/vnd.questions-api.v1:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        type:
+                          type: string
+                          example: subjects
+                        attributes:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: Math
+                          required:
+                          - name
+                      required:
+                      - id
+                      - type
+                      - attributes
+                required:
+                - data
+        '401':
+          description: unauthorized
 servers:
 - url: https://{defaultHost}
   variables:

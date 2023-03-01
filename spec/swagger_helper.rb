@@ -19,8 +19,21 @@ RSpec.configure do |config|
       openapi: '3.0.1',
       info: {
         title: 'Questions API',
-        version: 'v1'
+        version: 'v1',
+        description: 'API for questions and answers for the Fractal Company'
       },
+      components: {
+        securitySchemes: {
+          Bearer: {
+            type: :apiKey,
+            scheme: :bearer,
+            bearerFormat: :JWT,
+            name: :Authorization,
+            in: :header
+          }
+        }
+      },
+      security: [{ Bearer: [] }],
       paths: {},
       servers: [
         {
