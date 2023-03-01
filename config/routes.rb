@@ -14,6 +14,7 @@ Rails.application.routes.draw do
         resources :answers, only: [:create]
       end
       resources :answers, only: [:show, :index, :update, :destroy]
+      resources :user_exams, only: [:index, :show, :create, :update, :destroy]
     end
   end
 end

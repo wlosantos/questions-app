@@ -2,7 +2,7 @@ class User < ApplicationRecord
   rolify
   has_secure_password :password, validations: false
 
-  has_many :user_exam, dependent: :destroy
+  has_many :user_exams, dependent: :destroy
 
   validates :email, presence: true, uniqueness: { case_sensitive: false }, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :password, presence: true, length: { minimum: 6 }

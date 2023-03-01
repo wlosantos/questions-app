@@ -68,7 +68,7 @@ ActiveRecord::Schema[7.0].define(version: 20_230_228_152_722) do
   end
 
   create_table "user_exams", force: :cascade do |t|
-    t.float "score"
+    t.float "score", default: 0.0
     t.bigint "user_id", null: false
     t.bigint "exam_id", null: false
     t.datetime "created_at", null: false

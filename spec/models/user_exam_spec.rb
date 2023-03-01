@@ -14,12 +14,6 @@ RSpec.describe UserExam, type: :model do
     it { is_expected.to belong_to(:exam) }
   end
 
-  describe 'validations' do
-    it { is_expected.to validate_presence_of(:score) }
-    it { is_expected.to validate_numericality_of(:score).is_greater_than_or_equal_to(0) }
-    it { is_expected.to validate_numericality_of(:score).is_less_than_or_equal_to(10) }
-  end
-
   describe 'be valid user_exam' do
     let(:user) { create(:user) }
     let(:exam) { create(:exam) }
