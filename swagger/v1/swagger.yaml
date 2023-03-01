@@ -21,7 +21,7 @@ paths:
             schema:
               type: object
               properties:
-                registrations:
+                user:
                   type: object
                   properties:
                     name:
@@ -41,7 +41,29 @@ paths:
                   - password
                   - password_confirmation
               required:
-              - registrations
+              - user
+  "/sessions":
+    post:
+      summary: Creates a session
+      tags:
+      - Sessions
+      parameters: []
+      responses:
+        '401':
+          description: Invalid credentials
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+              - email
+              - password
 servers:
 - url: https://{defaultHost}
   variables:
