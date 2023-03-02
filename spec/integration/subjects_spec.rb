@@ -45,4 +45,40 @@ describe 'Subjects API', swagger_doc: 'v1/swagger.yaml' do
       end
     end
   end
+
+  # create subject
+  path '/subjects' do
+    post 'Creates a subject' do
+      tags 'Subjects'
+      security [Bearer: []]
+      consumes 'application/json'
+      produces 'application/json'
+
+      parameter name: :subject, in: :body, schema: {
+        type: :object,
+        properties: {
+          subject: {
+            type: :object,
+            properties: {
+              name: { type: :string, example: 'Biologia' }
+            },
+            required: %w[name]
+          }
+        },
+        required: %w[subject]
+      }
+
+      response '200', 'subject created' do
+        let(:Authorization) { "Bearer #{token}" }
+        let(:subject) { attributes_for(:subject, name: 'Biologia') }
+        run_test!
+      end
+
+      response '401', 'unauthorized' do
+        let(:Authorization) { '' }
+        let(:subject) { { subject: attributes_for(:subject, name: 'Biologia') } }
+        run_test!
+      end
+    end
+  end
 end

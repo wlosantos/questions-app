@@ -58,6 +58,8 @@ paths:
       summary: Creates a session
       tags:
       - Sessions
+      security:
+      - Bearer: []
       parameters: []
       responses:
         '401':
@@ -117,6 +119,34 @@ paths:
                 - data
         '401':
           description: unauthorized
+    post:
+      summary: Creates a subject
+      tags:
+      - Subjects
+      security:
+      - Bearer: []
+      parameters: []
+      responses:
+        '200':
+          description: subject created
+        '401':
+          description: unauthorized
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                subject:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      example: Biologia
+                  required:
+                  - name
+              required:
+              - subject
 servers:
 - url: https://{defaultHost}
   variables:
