@@ -1119,6 +1119,54 @@ paths:
           description: subject deleted
         '401':
           description: unauthorized
+  "/user_exams":
+    get:
+      summary: List all user_exams
+      tags:
+      - User Exams
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: user_exams found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        type:
+                          type: string
+                        attributes:
+                          type: object
+                          properties:
+                            user_id:
+                              type: integer
+                            exam_id:
+                              type: integer
+                            status:
+                              type: string
+                            score:
+                              type: integer
+                          required:
+                          - user-id
+                          - exam-id
+                          - status
+                          - score
+                      required:
+                      - id
+                      - type
+                      - attributes
+                required:
+                - data
+        '401':
+          description: unauthorized
   "/users":
     get:
       summary: List all users
