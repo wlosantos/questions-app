@@ -474,6 +474,69 @@ paths:
                 - data
         '401':
           description: unauthorized
+  "/exams/{exam_id}/questions":
+    post:
+      summary: Create a question
+      tags:
+      - Questions
+      security:
+      - Bearer: []
+      parameters:
+      - name: exam_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: question created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                      attributes:
+                        type: object
+                        properties:
+                          ask:
+                            type: string
+                          exam_id:
+                            type: integer
+                        required:
+                        - ask
+                        - exam-id
+                    required:
+                    - id
+                    - type
+                    - attributes
+                required:
+                - data
+        '401':
+          description: unauthorized
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                question:
+                  type: object
+                  properties:
+                    ask:
+                      type: string
+                  required:
+                  - ask
+              required:
+              - question
   "/registrations":
     post:
       summary: Creates a registration

@@ -4,6 +4,7 @@ describe 'Questions API' do
   let(:user) { create(:user, :admin, name: 'Wendel Lopes', username: 'wendellopes') }
   let(:token) { JwtAuth::TokenProvider.issue_token({ email: user.email }) }
   let(:exam) { create(:exam) }
+  let(:exam_id) { exam.id }
   let(:question) { create(:question, exam:) }
 
   # list all questions
@@ -130,6 +131,71 @@ describe 'Questions API' do
         let(:Authorization) { 'invalid' }
         let(:exam_id) { exam.id }
         let(:id) { question.id }
+        run_test!
+      end
+    end
+  end
+
+  # create question
+  path '/exams/{exam_id}/questions' do
+    post 'Create a question' do
+      tags 'Questions'
+      security [Bearer: []]
+
+      consumes 'application/json'
+      produces 'application/json'
+
+      parameter name: :exam_id, in: :path, type: :integer, required: true
+      parameter name: :question, in: :body, schema: {
+        type: :object,
+        properties: {
+          question: {
+            type: :object,
+            properties: {
+              ask: { type: :string }
+            },
+            required: %w[ask]
+          }
+        },
+        required: %w[question]
+      }
+
+      response '200', 'question created' do
+        schema type: :object,
+               properties: {
+                 data: {
+                   type: :object,
+                   properties: {
+                     id: { type: :string },
+                     type: { type: :string },
+                     attributes: {
+                       type: :object,
+                       properties: {
+                         ask: { type: :string },
+                         exam_id: { type: :integer }
+                       },
+                       required: %w[ask exam-id]
+                     }
+                   },
+                   required: %w[id type attributes]
+                 }
+               },
+               required: %w[data]
+
+        let(:Authorization) { "Bearer #{token}" }
+        let(:exam_id) { exam.id }
+        let(:question) { { question: { ask: 'What is the capital of Brazil?' } } }
+        run_test!
+      end
+
+      response '401', 'unauthorized' do
+        let(:Authorization) { 'invalid' }
+        run_test!
+      end
+
+      response '422', 'invalid request' do
+        let(:Authorization) { "Bearer #{token}" }
+        let(:question) { { question: { ask: '' } } }
         run_test!
       end
     end
