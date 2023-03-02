@@ -3,29 +3,29 @@ module Api
     class AnswersController < ApplicationController
       include Paginable
 
-      before_action :set_question
+      before_action :set_question, only: [:create]
       before_action :set_answer, only: [:show, :update, :destroy]
 
       def index
         answers = if params[:q].present?
-                    @question.answers.ransack(params[:q]).result(distinct: true).page(current_page).per(per_page)
+                    Answer.ransack(params[:q]).result(distinct: true).page(current_page).per(per_page)
                   else
-                    @question.answers.page(current_page).per(per_page)
+                    Answer.page(current_page).per(per_page)
                   end
         authorize answers
-        render json: { answers:, meta: meta_attributes(answers) }, status: :ok
+        render json: answers, meta: meta_attributes(answers), status: :ok
       end
 
       def show
         authorize @answer
-        render json: { answer: @answer }, status: :ok
+        render json: @answer, status: :ok
       end
 
       def create
         @answer = @question.answers.new(answer_params)
         authorize @answer
         if @answer.save
-          render json: { answer: @answer }, status: :ok
+          render json: @answer, status: :ok
         else
           render json: { errors: @answer.errors }, status: :unprocessable_entity
         end
@@ -34,7 +34,7 @@ module Api
       def update
         authorize @answer
         if @answer.update(answer_params)
-          render json: { answer: @answer }, status: :ok
+          render json: @answer, status: :ok
         else
           render json: { errors: @answer.errors }, status: :unprocessable_entity
         end
@@ -49,7 +49,7 @@ module Api
       private
 
       def set_answer
-        @answer = @question.answers.find(params[:id])
+        @answer = Answer.find(params[:id])
       end
 
       def set_question
@@ -57,7 +57,7 @@ module Api
       end
 
       def answer_params
-        params.require(:answer).permit(:description, :correct)
+        params.require(:answer).permit(:response, :corrected)
       end
     end
   end

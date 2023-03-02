@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :school_subject do
+  factory :subject do
     name { Faker::Educator.subject }
   end
 end

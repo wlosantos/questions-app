@@ -12,19 +12,19 @@ module Api
                   Exam.page(current_page).per(per_page)
                 end
         authorize exams
-        render json: { exams:, meta: meta_attributes(exams) }, status: :ok
+        render json: exams, meta: meta_attributes(exams), status: :ok
       end
 
       def show
         authorize @exam
-        render json: { exam: @exam }, status: :ok
+        render json: @exam, serializer: ExamSerializer, show_detail: true, status: :ok
       end
 
       def create
-        exam = current_user.exams.new(exam_params)
+        exam = Exam.new(exam_params)
         authorize exam
         if exam.save
-          render json: { exam: }, status: :ok
+          render json: exam, status: :ok
         else
           render json: { errors: exam.errors }, status: :unprocessable_entity
         end
@@ -33,7 +33,7 @@ module Api
       def update
         authorize @exam
         if @exam.update(exam_params)
-          render json: { exam: @exam }, status: :ok
+          render json: @exam, status: :ok
         else
           render json: { errors: @exam.errors }, status: :unprocessable_entity
         end
@@ -52,7 +52,7 @@ module Api
       end
 
       def exam_params
-        params.require(:exam).permit(:title, :school_subject_id)
+        params.require(:exam).permit(:theme, :subject_id, :finished)
       end
     end
   end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Api::V1::SchoolSubjects", type: :request do
+RSpec.describe "Api::V1::Subjects", type: :request do
   before { host! 'api.questions-api.io' }
   let!(:user) { create(:user, :admin, name: 'Wendel Lopes', username: 'wendellopes') }
   let!(:token) { JwtAuth::TokenProvider.issue_token({ email: user.email }) }
@@ -12,10 +12,10 @@ RSpec.describe "Api::V1::SchoolSubjects", type: :request do
     }
   end
 
-  describe 'GET /school_subjects' do
-    let!(:subjects) { create(:school_subject) }
+  describe 'GET /subjects' do
+    let!(:subjects) { create(:subject) }
     before do
-      get '/school_subjects', params: {}, headers:
+      get '/subjects', params: {}, headers:
     end
 
     it 'returns success status' do
@@ -23,7 +23,7 @@ RSpec.describe "Api::V1::SchoolSubjects", type: :request do
     end
 
     it 'returns all school subjects' do
-      expect(json_body[:school_subjects].count).to eq(1)
+      expect(json_body[:data].size).to eq(1)
     end
 
     context 'when user is not admin' do
@@ -39,12 +39,12 @@ RSpec.describe "Api::V1::SchoolSubjects", type: :request do
     end
   end
 
-  describe 'POST /school_subjects' do
+  describe 'POST /subjects' do
     context 'when params are valid' do
-      let(:school_subject_params) { attributes_for(:school_subject) }
+      let(:subject_params) { attributes_for(:subject) }
 
       before do
-        post '/school_subjects', params: school_subject_params.to_json, headers:
+        post '/subjects', params: subject_params.to_json, headers:
       end
 
       it 'returns success status' do
@@ -52,15 +52,15 @@ RSpec.describe "Api::V1::SchoolSubjects", type: :request do
       end
 
       it 'returns the school subject' do
-        expect(json_body[:school_subject][:name]).to eq(school_subject_params[:name])
+        expect(json_body[:data][:attributes][:name]).to eq(subject_params[:name])
       end
     end
 
     context 'when params are invalid' do
-      let(:school_subject_params) { attributes_for(:school_subject, name: nil) }
+      let(:subject_params) { attributes_for(:subject, name: nil) }
 
       before do
-        post '/school_subjects', params: school_subject_params.to_json, headers:
+        post '/subjects', params: subject_params.to_json, headers:
       end
 
       it 'returns unprocessable entity status' do
@@ -73,14 +73,14 @@ RSpec.describe "Api::V1::SchoolSubjects", type: :request do
     end
   end
 
-  describe 'PUT /school_subjects/:id' do
-    let!(:school_subject) { create(:school_subject) }
+  describe 'PUT /subjects/:id' do
+    let!(:subject) { create(:subject) }
 
     context 'when params are valid' do
-      let(:school_subject_params) { { name: 'New name' }.to_json }
+      let(:subject_params) { { name: 'New name' }.to_json }
 
       before do
-        put "/school_subjects/#{school_subject.id}", params: school_subject_params, headers:
+        put "/subjects/#{subject.id}", params: subject_params, headers:
       end
 
       it 'returns success status' do
@@ -88,15 +88,15 @@ RSpec.describe "Api::V1::SchoolSubjects", type: :request do
       end
 
       it 'returns the school subject' do
-        expect(json_body[:school_subject][:name]).to eq('New name')
+        expect(json_body[:data][:attributes][:name]).to eq('New name')
       end
     end
 
     context 'when params are invalid' do
-      let(:school_subject_params) { { name: nil }.to_json }
+      let(:subject_params) { { name: nil }.to_json }
 
       before do
-        put "/school_subjects/#{school_subject.id}", params: school_subject_params, headers:
+        put "/subjects/#{subject.id}", params: subject_params, headers:
       end
 
       it 'returns unprocessable entity status' do
@@ -109,19 +109,19 @@ RSpec.describe "Api::V1::SchoolSubjects", type: :request do
     end
   end
 
-  describe 'DELETE /school_subjects/:id' do
-    let!(:school_subject) { create(:school_subject) }
+  describe 'DELETE /subjects/:id' do
+    let!(:subject) { create(:subject) }
 
     before do
-      delete "/school_subjects/#{school_subject.id}", params: {}, headers:
+      delete "/subjects/#{subject.id}", params: {}, headers:
     end
 
     it 'returns success status' do
       expect(response).to have_http_status(:no_content)
     end
 
-    it 'removes the school subject' do
-      expect(SchoolSubject.count).to eq(0)
+    it 'removes the subject' do
+      expect(Subject.count).to eq(0)
     end
   end
 end
