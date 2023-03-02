@@ -537,6 +537,67 @@ paths:
                   - ask
               required:
               - question
+  "/questions/{id}":
+    put:
+      summary: Update a question
+      tags:
+      - Questions
+      security:
+      - Bearer: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: question updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                      attributes:
+                        type: object
+                        properties:
+                          ask:
+                            type: string
+                          exam_id:
+                            type: integer
+                        required:
+                        - ask
+                        - exam-id
+                    required:
+                    - id
+                    - type
+                    - attributes
+                required:
+                - data
+        '401':
+          description: unauthorized
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                question:
+                  type: object
+                  properties:
+                    ask:
+                      type: string
+                  required:
+                  - ask
+              required:
+              - question
   "/registrations":
     post:
       summary: Creates a registration

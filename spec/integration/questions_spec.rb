@@ -200,4 +200,65 @@ describe 'Questions API' do
       end
     end
   end
+
+  # update question
+  path '/questions/{id}' do
+    put 'Update a question' do
+      tags 'Questions'
+      security [Bearer: []]
+
+      consumes 'application/json'
+      produces 'application/json'
+
+      parameter name: :id, in: :path, type: :integer, required: true
+
+      parameter name: :question, in: :body, schema: {
+        type: :object,
+        properties: {
+          question: {
+            type: :object,
+            properties: {
+              ask: { type: :string }
+            },
+            required: %w[ask]
+          }
+        },
+        required: %w[question]
+      }
+
+      response '200', 'question updated' do
+        schema type: :object,
+               properties: {
+                 data: {
+                   type: :object,
+                   properties: {
+                     id: { type: :string },
+                     type: { type: :string },
+                     attributes: {
+                       type: :object,
+                       properties: {
+                         ask: { type: :string },
+                         exam_id: { type: :integer }
+                       },
+                       required: %w[ask exam-id]
+                     }
+                   },
+                   required: %w[id type attributes]
+                 }
+               },
+               required: %w[data]
+
+        let(:Authorization) { "Bearer #{token}" }
+        let(:id) { create(:question, exam:).id }
+        let(:question) { attributes_for(:question, ask: 'Wich is the president of the Brazil') }
+        run_test!
+      end
+
+      response '401', 'unauthorized' do
+        let(:Authorization) { 'invalid' }
+        let(:id) { question.id }
+        run_test!
+      end
+    end
+  end
 end
