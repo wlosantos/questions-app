@@ -122,4 +122,152 @@ describe 'Answers API' do
       end
     end
   end
+
+  # create answer
+  path '/questions/{question_id}/answers' do
+    post 'Create answer' do
+      tags 'Answers'
+      security [Bearer: []]
+
+      consumes 'application/json'
+      produces 'application/json'
+
+      parameter name: :question_id, in: :path, type: :integer, required: true
+      parameter name: :answer, in: :body, schema: {
+        type: :object,
+        properties: {
+          answer: {
+            type: :object,
+            properties: {
+              response: { type: :string },
+              corrected: { type: :boolean }
+            },
+            required: %w[answer corrected]
+          }
+        },
+        required: %w[answer]
+      }
+
+      response '200', 'answer created' do
+        schema type: :object,
+               properties: {
+                 data: {
+                   type: :object,
+                   properties: {
+                     id: { type: :string },
+                     type: { type: :string },
+                     attributes: {
+                       type: :object,
+                       properties: {
+                         response: { type: :string },
+                         corrected: { type: :boolean },
+                         question_id: { type: :integer }
+                       },
+                       required: %w[response corrected question-id]
+                     }
+                   },
+                   required: %w[id type attributes]
+                 }
+               },
+               required: %w[data]
+
+        let(:answer) { attributes_for(:answer, question_id: question.id) }
+        run_test!
+      end
+
+      response '401', 'unauthorized' do
+        let(:Authorization) { nil }
+        let(:answer) { attributes_for(:answer, question_id: question.id) }
+        run_test!
+      end
+
+      response '422', 'invalid request' do
+        let(:answer) { { response: '' } }
+        run_test!
+      end
+    end
+  end
+
+  # update answer
+  path '/answers/{id}' do
+    put 'Update answer' do
+      tags 'Answers'
+      security [Bearer: []]
+
+      consumes 'application/json'
+      produces 'application/json'
+
+      parameter name: :id, in: :path, type: :integer, required: true
+      parameter name: :answer, in: :body, schema: {
+        type: :object,
+        properties: {
+          answer: {
+            type: :object,
+            properties: {
+              response: { type: :string },
+              corrected: { type: :boolean }
+            },
+            required: %w[answer corrected]
+          }
+        },
+        required: %w[answer]
+      }
+
+      response '200', 'answer updated' do
+        schema type: :object,
+               properties: {
+                 data: {
+                   type: :object,
+                   properties: {
+                     id: { type: :string },
+                     type: { type: :string },
+                     attributes: {
+                       type: :object,
+                       properties: {
+                         response: { type: :string },
+                         corrected: { type: :boolean },
+                         question_id: { type: :integer }
+                       },
+                       required: %w[response corrected question-id]
+                     }
+                   },
+                   required: %w[id type attributes]
+                 }
+               },
+               required: %w[data]
+
+        let(:id) { create(:answer, question:).id }
+        let(:answer) { attributes_for(:answer, question_id: question.id) }
+        run_test!
+      end
+
+      response '401', 'unauthorized' do
+        let(:Authorization) { nil }
+        let(:id) { answer.id }
+        run_test!
+      end
+    end
+  end
+
+  # delete answer
+  path '/answers/{id}' do
+    delete 'Delete answer' do
+      tags 'Answers'
+      security [Bearer: []]
+
+      produces 'application/json'
+      parameter name: :id, in: :path, type: :integer, required: true
+
+      response '204', 'answer deleted' do
+        let(:id) { create(:answer, question:).id }
+        run_test!
+      end
+
+      response '401', 'unauthorized' do
+        let(:Authorization) { nil }
+        let(:id) { answer.id }
+        run_test!
+      end
+    end
+  end
 end

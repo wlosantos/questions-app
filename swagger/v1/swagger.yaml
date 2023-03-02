@@ -172,6 +172,158 @@ paths:
                 - data
         '401':
           description: unauthorized
+    put:
+      summary: Update answer
+      tags:
+      - Answers
+      security:
+      - Bearer: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: answer updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                      attributes:
+                        type: object
+                        properties:
+                          response:
+                            type: string
+                          corrected:
+                            type: boolean
+                          question_id:
+                            type: integer
+                        required:
+                        - response
+                        - corrected
+                        - question-id
+                    required:
+                    - id
+                    - type
+                    - attributes
+                required:
+                - data
+        '401':
+          description: unauthorized
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                answer:
+                  type: object
+                  properties:
+                    response:
+                      type: string
+                    corrected:
+                      type: boolean
+                  required:
+                  - answer
+                  - corrected
+              required:
+              - answer
+    delete:
+      summary: Delete answer
+      tags:
+      - Answers
+      security:
+      - Bearer: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: answer deleted
+        '401':
+          description: unauthorized
+  "/questions/{question_id}/answers":
+    post:
+      summary: Create answer
+      tags:
+      - Answers
+      security:
+      - Bearer: []
+      parameters:
+      - name: question_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: answer created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                      attributes:
+                        type: object
+                        properties:
+                          response:
+                            type: string
+                          corrected:
+                            type: boolean
+                          question_id:
+                            type: integer
+                        required:
+                        - response
+                        - corrected
+                        - question-id
+                    required:
+                    - id
+                    - type
+                    - attributes
+                required:
+                - data
+        '401':
+          description: unauthorized
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                answer:
+                  type: object
+                  properties:
+                    response:
+                      type: string
+                    corrected:
+                      type: boolean
+                  required:
+                  - answer
+                  - corrected
+              required:
+              - answer
   "/exams":
     get:
       summary: Retrieves exams
