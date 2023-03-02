@@ -407,6 +407,73 @@ paths:
                 - data
         '401':
           description: unauthorized
+  "/exams/{exam_id}/questions/{id}":
+    get:
+      summary: Show a question
+      tags:
+      - Questions
+      security:
+      - Bearer: []
+      parameters:
+      - name: exam_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: question found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                      attributes:
+                        type: object
+                        properties:
+                          ask:
+                            type: string
+                          exam_id:
+                            type: integer
+                          answers:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                response:
+                                  type: string
+                                corrected:
+                                  type: boolean
+                              required:
+                              - id
+                              - response
+                              - corrected
+                        required:
+                        - ask
+                        - exam-id
+                        - answers
+                    required:
+                    - id
+                    - type
+                    - attributes
+                required:
+                - data
+        '401':
+          description: unauthorized
   "/registrations":
     post:
       summary: Creates a registration

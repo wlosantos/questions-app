@@ -4,6 +4,7 @@ describe 'Questions API' do
   let(:user) { create(:user, :admin, name: 'Wendel Lopes', username: 'wendellopes') }
   let(:token) { JwtAuth::TokenProvider.issue_token({ email: user.email }) }
   let(:exam) { create(:exam) }
+  let(:question) { create(:question, exam:) }
 
   # list all questions
   path '/questions' do
@@ -70,6 +71,65 @@ describe 'Questions API' do
 
       response '401', 'unauthorized' do
         let(:Authorization) { 'invalid' }
+        run_test!
+      end
+    end
+  end
+
+  # show question
+  path '/exams/{exam_id}/questions/{id}' do
+    get 'Show a question' do
+      tags 'Questions'
+      security [Bearer: []]
+
+      produces 'application/json'
+      parameter name: :exam_id, in: :path, type: :integer, required: true
+      parameter name: :id, in: :path, type: :integer, required: true
+
+      response '200', 'question found' do
+        schema type: :object,
+               properties: {
+                 data: {
+                   type: :object,
+                   properties: {
+                     id: { type: :string },
+                     type: { type: :string },
+                     attributes: {
+                       type: :object,
+                       properties: {
+                         ask: { type: :string },
+                         exam_id: { type: :integer },
+                         answers: {
+                           type: :array,
+                           items: {
+                             type: :object,
+                             properties: {
+                               id: { type: :integer },
+                               response: { type: :string },
+                               corrected: { type: :boolean }
+                             },
+                             required: %w[id response corrected]
+                           }
+                         }
+                       },
+                       required: %w[ask exam-id answers]
+                     }
+                   },
+                   required: %w[id type attributes]
+                 }
+               },
+               required: %w[data]
+
+        let(:Authorization) { "Bearer #{token}" }
+        let(:exam_id) { exam.id }
+        let(:id) { question.id }
+        run_test!
+      end
+
+      response '401', 'unauthorized' do
+        let(:Authorization) { 'invalid' }
+        let(:exam_id) { exam.id }
+        let(:id) { question.id }
         run_test!
       end
     end
