@@ -107,6 +107,12 @@ describe 'Subjects API' do
       }
 
       response '200', 'subject updated' do
+        schema type: :object,
+               properties: {
+                 id: { type: :integer, example: 1 },
+                 name: { type: :string, example: 'Biologia' }
+               }
+
         let(:Authorization) { "Bearer #{token}" }
         let(:id) { create(:subject).id }
         let(:subject) { { subject: attributes_for(:subject, name: 'Biologia') } }
