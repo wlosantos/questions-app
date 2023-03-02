@@ -113,6 +113,12 @@ describe 'Exams API' do
         let(:Authorization) { "Bearer #{token}" }
         run_test!
       end
+
+      response '401', 'unauthorized' do
+        let(:Authorization) { 'invalid' }
+        let(:id) { create(:exam).id }
+        run_test!
+      end
     end
   end
 
@@ -177,6 +183,78 @@ describe 'Exams API' do
 
       response '422', 'invalid request' do
         let(:Authorization) { "Bearer #{token}" }
+        let(:exam) { attributes_for(:exam, theme: nil, subject_id: subject.id) }
+        run_test!
+      end
+    end
+  end
+
+  # update exam
+  path '/exams/{id}' do
+    put 'Update a exam' do
+      tags 'Exams'
+      security [Bearer: []]
+
+      consumes 'application/json'
+      produces 'applications/json'
+
+      parameter name: :id, in: :path, type: :integer
+      parameter name: :exam, in: :body, schema: {
+        type: :object,
+        properties: {
+          exam: {
+            type: :object,
+            properties: {
+              theme: { type: :string },
+              subject_id: { type: :string },
+              finished: { type: :date }
+            },
+            required: %w[theme subject_id finished]
+          }
+        },
+        required: %w[exam]
+      }
+
+      response '200', 'exam updated' do
+        schema type: :object,
+               properties: {
+                 data: {
+                   type: :object,
+                   properties: {
+                     id: { type: :string },
+                     type: { type: :string },
+                     attributes: {
+                       type: :object,
+                       properties: {
+                         theme: { type: :string },
+                         subject: { type: :string },
+                         created: { type: :string },
+                         finished: { type: :date }
+                       },
+                       required: %w[theme subject created finished]
+                     }
+                   },
+                   required: %w[id type attributes]
+                 }
+               },
+               required: %w[data]
+
+        let(:Authorization) { "Bearer #{token}" }
+        let(:id) { create(:exam).id }
+        let(:exam) { attributes_for(:exam, theme: 'Avaliation of Math', subject_id: subject.id) }
+        run_test!
+      end
+
+      response '401', 'unauthorized' do
+        let(:Authorization) { 'invalid' }
+        let(:id) { create(:exam).id }
+        let(:exam) { attributes_for(:exam, theme: 'Avaliation of Math', subject_id: subject.id) }
+        run_test!
+      end
+
+      response '422', 'invalid request' do
+        let(:Authorization) { "Bearer #{token}" }
+        let(:id) { create(:exam).id }
         let(:exam) { attributes_for(:exam, theme: nil, subject_id: subject.id) }
         run_test!
       end

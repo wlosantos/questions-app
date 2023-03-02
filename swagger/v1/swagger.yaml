@@ -212,6 +212,82 @@ paths:
                         - subject
                         - created
                         - finished
+        '401':
+          description: unauthorized
+    put:
+      summary: Update a exam
+      tags:
+      - Exams
+      security:
+      - Bearer: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: exam updated
+          content:
+            applications/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                      attributes:
+                        type: object
+                        properties:
+                          theme:
+                            type: string
+                          subject:
+                            type: string
+                          created:
+                            type: string
+                          finished:
+                            type: date
+                        required:
+                        - theme
+                        - subject
+                        - created
+                        - finished
+                    required:
+                    - id
+                    - type
+                    - attributes
+                required:
+                - data
+        '401':
+          description: unauthorized
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                exam:
+                  type: object
+                  properties:
+                    theme:
+                      type: string
+                    subject_id:
+                      type: string
+                    finished:
+                      type: date
+                  required:
+                  - theme
+                  - subject_id
+                  - finished
+              required:
+              - exam
   "/registrations":
     post:
       summary: Creates a registration
