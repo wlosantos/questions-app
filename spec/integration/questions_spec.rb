@@ -66,7 +66,7 @@ describe 'Questions API' do
         let(:Authorization) { "Bearer #{token}" }
         let(:page) { 1 }
         let(:per_page) { 5 }
-        let(:q) { ['ask', 'ask ASC'] }
+        let(:q) { ['ask_cont', 'ask ASC'] }
         run_test!
       end
 

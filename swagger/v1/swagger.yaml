@@ -15,6 +15,114 @@ components:
 security:
 - Bearer: []
 paths:
+  "/answers":
+    get:
+      summary: List all answers
+      tags:
+      - Answers
+      security:
+      - Bearer: []
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+      - name: per_page
+        in: query
+        required: false
+        schema:
+          type: integer
+      - name: q
+        in: query
+        items:
+          type: array
+        collectionFormat: multi
+        required: false
+        description: 'Search by answer or correct, example: q[answer_cont]=change&q[correct_eq]=true'
+        schema:
+          type: array
+      responses:
+        '200':
+          description: answers found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        type:
+                          type: string
+                        attributes:
+                          type: object
+                          properties:
+                            answer:
+                              type: string
+                            correct:
+                              type: boolean
+                            question_id:
+                              type: integer
+                          required:
+                          - answer
+                          - correct
+                          - question-id
+                      required:
+                      - id
+                      - type
+                      - attributes
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: url
+                        example: http://localhost:3000/answers?page=1&per_page=10
+                      first:
+                        type: string
+                        format: url
+                        example: http://localhost:3000/answers?page=1&per_page=10
+                      prev:
+                        type: 'null'
+                      next:
+                        type: 'null'
+                      last:
+                        type: string
+                        format: url
+                        example: http://localhost:3000/answers?page=1&per_page=10
+                    required:
+                    - self
+                    - first
+                    - prev
+                    - next
+                    - last
+                  meta:
+                    type: object
+                    properties:
+                      current_page:
+                        type: integer
+                        example: 1
+                      total_items:
+                        type: integer
+                        example: 5
+                      items_per_page:
+                        type: integer
+                        example: 10
+                    required:
+                    - current-page
+                    - total-items
+                    - items-per-page
+                required:
+                - data
+                - links
+                - meta
+        '401':
+          description: unauthorized
   "/exams":
     get:
       summary: Retrieves exams
