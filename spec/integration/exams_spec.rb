@@ -3,7 +3,7 @@ require 'swagger_helper'
 describe 'Exams API' do
   let(:user) { create(:user, :admin, name: 'Wendel Lopes', username: 'wendellopes') }
   let(:token) { JwtAuth::TokenProvider.issue_token({ email: user.email }) }
-  let(:subject) { create(:subject) }
+  let(:subject) { create(:subject, name: 'Teologia Sistemática') }
 
   path '/exams' do
     get 'Retrieves exams' do
@@ -256,6 +256,31 @@ describe 'Exams API' do
         let(:Authorization) { "Bearer #{token}" }
         let(:id) { create(:exam).id }
         let(:exam) { attributes_for(:exam, theme: nil, subject_id: subject.id) }
+        run_test!
+      end
+    end
+  end
+
+  # delete exam
+  path '/exams/{id}' do
+    delete 'Delete a exam' do
+      tags 'Exams'
+      security [Bearer: []]
+
+      consumes 'application/json'
+      produces 'applications/json'
+
+      parameter name: :id, in: :path, type: :integer
+
+      response '204', 'exam deleted' do
+        let(:Authorization) { "Bearer #{token}" }
+        let(:id) { create(:exam).id }
+        run_test!
+      end
+
+      response '401', 'unauthorized' do
+        let(:Authorization) { 'invalid' }
+        let(:id) { create(:exam).id }
         run_test!
       end
     end

@@ -288,6 +288,23 @@ paths:
                   - finished
               required:
               - exam
+    delete:
+      summary: Delete a exam
+      tags:
+      - Exams
+      security:
+      - Bearer: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: exam deleted
+        '401':
+          description: unauthorized
   "/registrations":
     post:
       summary: Creates a registration
