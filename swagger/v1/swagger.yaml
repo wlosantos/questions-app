@@ -1167,6 +1167,77 @@ paths:
                 - data
         '401':
           description: unauthorized
+  "/user_exams/{id}":
+    get:
+      summary: Show user_exam
+      tags:
+      - User Exams
+      security:
+      - Bearer: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: user_exam found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                      attributes:
+                        type: object
+                        properties:
+                          exam_id:
+                            type: integer
+                          theme:
+                            type: string
+                          score:
+                            type: float
+                          user_answers:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                question:
+                                  type: integer
+                                answer:
+                                  type: integer
+                                option:
+                                  type: string
+                                response:
+                                  type: boolean
+                              required:
+                              - id
+                              - question
+                              - answer
+                              - option
+                              - response
+                        required:
+                        - exam-id
+                        - theme
+                        - score
+                        - user-answers
+                    required:
+                    - id
+                    - type
+                    - attributes
+                required:
+                - data
+        '401':
+          description: unauthorized
   "/users":
     get:
       summary: List all users
