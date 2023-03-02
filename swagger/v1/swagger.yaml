@@ -39,7 +39,7 @@ paths:
           type: array
         collectionFormat: multi
         required: false
-        description: 'Search by answer or correct, example: q[answer_cont]=change&q[correct_eq]=true'
+        description: 'Search by answer or correct, example: q[answer_cont]=change&q[s]=answer+ASC'
         schema:
           type: array
       responses:
@@ -121,6 +121,55 @@ paths:
                 - data
                 - links
                 - meta
+        '401':
+          description: unauthorized
+  "/answers/{id}":
+    get:
+      summary: Show answer
+      tags:
+      - Answers
+      security:
+      - Bearer: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: answer found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                      attributes:
+                        type: object
+                        properties:
+                          response:
+                            type: string
+                          corrected:
+                            type: boolean
+                          question_id:
+                            type: integer
+                        required:
+                        - response
+                        - corrected
+                        - question-id
+                    required:
+                    - id
+                    - type
+                    - attributes
+                required:
+                - data
         '401':
           description: unauthorized
   "/exams":

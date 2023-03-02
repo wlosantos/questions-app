@@ -18,7 +18,7 @@ describe 'Answers API' do
       parameter name: :page, in: :query, type: :integer, required: false
       parameter name: :per_page, in: :query, type: :integer, required: false
       parameter name: :q, in: :query, type: :array, items: { type: :array }, collectionFormat: :multi, required: false,
-                description: 'Search by answer or correct, example: q[answer_cont]=change&q[correct_eq]=true'
+                description: 'Search by answer or correct, example: q[answer_cont]=change&q[s]=answer+ASC'
 
       response '200', 'answers found' do
         schema type: :object,
@@ -74,6 +74,50 @@ describe 'Answers API' do
 
       response '401', 'unauthorized' do
         let(:Authorization) { nil }
+        run_test!
+      end
+    end
+  end
+
+  # show answer
+  path '/answers/{id}' do
+    get 'Show answer' do
+      tags 'Answers'
+      security [Bearer: []]
+
+      produces 'application/json'
+      parameter name: :id, in: :path, type: :integer, required: true
+
+      response '200', 'answer found' do
+        schema type: :object,
+               properties: {
+                 data: {
+                   type: :object,
+                   properties: {
+                     id: { type: :string },
+                     type: { type: :string },
+                     attributes: {
+                       type: :object,
+                       properties: {
+                         response: { type: :string },
+                         corrected: { type: :boolean },
+                         question_id: { type: :integer }
+                       },
+                       required: %w[response corrected question-id]
+                     }
+                   },
+                   required: %w[id type attributes]
+                 }
+               },
+               required: %w[data]
+
+        let(:id) { answer.id }
+        run_test!
+      end
+
+      response '401', 'unauthorized' do
+        let(:Authorization) { nil }
+        let(:id) { answer.id }
         run_test!
       end
     end
