@@ -11,6 +11,9 @@ describe 'Subjects API' do
       # consumes 'application/vnd.questions-api.v1'
       produces 'application/vnd.questions-api.v1'
 
+      parameter name: :page, in: :query, type: :integer, required: false
+      parameter name: :per_page, in: :query, type: :integer, required: false
+
       response '200', 'subjects found' do
         schema type: :object,
                properties: {
@@ -31,11 +34,33 @@ describe 'Subjects API' do
                      },
                      required: %w[id type attributes]
                    }
+                 },
+                 links: {
+                   type: :object,
+                   properties: {
+                     self: { type: :string, format: :url, example: 'http://localhost:3000/answers?page=1&per_page=10' },
+                     first: { type: :string, format: :url, example: 'http://localhost:3000/answers?page=1&per_page=10' },
+                     prev: { type: :null },
+                     next: { type: :null },
+                     last: { type: :string, format: :url, example: 'http://localhost:3000/answers?page=1&per_page=10' }
+                   },
+                   required: %w[self first prev next last]
+                 },
+                 meta: {
+                   type: :object,
+                   properties: {
+                     current_page: { type: :integer, example: 1 },
+                     total_items: { type: :integer, example: 5 },
+                     items_per_page: { type: :integer, example: 10 }
+                   },
+                   required: %w[current-page total-items items-per-page]
                  }
                },
                required: %w[data]
 
         let(:Authorization) { "Bearer #{token}" }
+        let(:page) { 1 }
+        let(:per_page) { 10 }
         run_test!
       end
 
