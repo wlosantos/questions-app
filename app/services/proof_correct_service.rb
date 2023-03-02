@@ -16,6 +16,8 @@ class ProofCorrectService < ApplicationService
       user_answer = @user_exam.user_answers.find_by(question_ref: answer['question'].to_i)
       @score += set_score if correct?(answer['answer'].to_i)
 
+      return false unless user_answer
+
       user_answer.update(answer: answer['answer'].to_i, trusty: correct?(answer['answer'].to_i))
     end
 
