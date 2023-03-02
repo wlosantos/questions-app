@@ -598,6 +598,23 @@ paths:
                   - ask
               required:
               - question
+    delete:
+      summary: Delete a question
+      tags:
+      - Questions
+      security:
+      - Bearer: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: question deleted
+        '401':
+          description: unauthorized
   "/registrations":
     post:
       summary: Creates a registration

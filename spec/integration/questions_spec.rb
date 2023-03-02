@@ -261,4 +261,28 @@ describe 'Questions API' do
       end
     end
   end
+
+  # delete question
+  path '/questions/{id}' do
+    delete 'Delete a question' do
+      tags 'Questions'
+      security [Bearer: []]
+
+      consumes 'application/json'
+
+      parameter name: :id, in: :path, type: :integer, required: true
+
+      response '204', 'question deleted' do
+        let(:Authorization) { "Bearer #{token}" }
+        let(:id) { question.id }
+        run_test!
+      end
+
+      response '401', 'unauthorized' do
+        let(:Authorization) { 'invalid' }
+        let(:id) { question.id }
+        run_test!
+      end
+    end
+  end
 end
