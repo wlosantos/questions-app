@@ -128,4 +128,28 @@ describe 'Subjects API' do
       end
     end
   end
+
+  # delete subject
+  path '/subjects/{id}' do
+    delete 'Deletes a subject' do
+      tags 'Subjects'
+      security [Bearer: []]
+
+      consumes 'application/json'
+
+      parameter name: :id, in: :path, type: :integer
+
+      response '204', 'subject deleted' do
+        let(:Authorization) { "Bearer #{token}" }
+        let(:id) { create(:subject).id }
+        run_test!
+      end
+
+      response '401', 'unauthorized' do
+        let(:Authorization) { '' }
+        let(:id) { create(:subject).id }
+        run_test!
+      end
+    end
+  end
 end
