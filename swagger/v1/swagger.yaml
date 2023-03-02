@@ -1298,6 +1298,23 @@ paths:
                 - data
         '401':
           description: unauthorized
+    delete:
+      summary: Delete user_exam
+      tags:
+      - User Exams
+      security:
+      - Bearer: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: user_exam deleted
+        '401':
+          description: unauthorized
   "/users":
     get:
       summary: List all users

@@ -172,4 +172,26 @@ describe 'UserExams API' do
       end
     end
   end
+
+  # delete user_exam
+  path '/user_exams/{id}' do
+    delete 'Delete user_exam' do
+      tags 'User Exams'
+      security [Bearer: []]
+
+      produces 'application/json'
+      parameter name: :id, in: :path, type: :integer, required: true
+
+      response '204', 'user_exam deleted' do
+        let(:id) { user_exam.id }
+        run_test!
+      end
+
+      response '401', 'unauthorized' do
+        let(:Authorization) { nil }
+        let(:id) { user_exam.id }
+        run_test!
+      end
+    end
+  end
 end
