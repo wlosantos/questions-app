@@ -74,6 +74,144 @@ paths:
                 - data
         '401':
           description: unauthorized
+    post:
+      summary: Create a exam
+      tags:
+      - Exams
+      security:
+      - Bearer: []
+      parameters: []
+      responses:
+        '200':
+          description: exam created
+          content:
+            applications/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                      attributes:
+                        type: object
+                        properties:
+                          theme:
+                            type: string
+                          subject:
+                            type: string
+                          created:
+                            type: string
+                          finished:
+                            type: 'null'
+                        required:
+                        - theme
+                        - subject
+                        - created
+                        - finished
+                    required:
+                    - id
+                    - type
+                    - attributes
+                required:
+                - data
+        '401':
+          description: unauthorized
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                exam:
+                  type: object
+                  properties:
+                    theme:
+                      type: string
+                    subject_id:
+                      type: string
+                  required:
+                  - theme
+                  - subject_id
+              required:
+              - exam
+  "/exams/{id}":
+    get:
+      summary: Show an exam
+      tags:
+      - Exams
+      security:
+      - Bearer: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: exam found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                      attributes:
+                        type: object
+                        properties:
+                          theme:
+                            type: string
+                          subject:
+                            type: string
+                          created:
+                            type: string
+                          finished:
+                            type: 'null'
+                          questions:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                ask:
+                                  type: string
+                                answers:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      id:
+                                        type: integer
+                                      response:
+                                        type: string
+                                      corrected:
+                                        type: boolean
+                                    required:
+                                    - id
+                                    - response
+                                    - corrected
+                              required:
+                              - id
+                              - ask
+                              - answer
+                        required:
+                        - theme
+                        - subject
+                        - created
+                        - finished
   "/registrations":
     post:
       summary: Creates a registration
