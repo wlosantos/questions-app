@@ -15,6 +15,65 @@ components:
 security:
 - Bearer: []
 paths:
+  "/exams":
+    get:
+      summary: Retrieves exams
+      tags:
+      - Exams
+      security:
+      - Bearer: []
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+      - name: per_page
+        in: query
+        required: false
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: exams found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        type:
+                          type: string
+                        attributes:
+                          type: object
+                          properties:
+                            theme:
+                              type: string
+                            subject:
+                              type: string
+                            created:
+                              type: string
+                            finished:
+                              type: string
+                          required:
+                          - theme
+                          - subject
+                          - created
+                          - finished
+                      required:
+                      - id
+                      - type
+                      - attributes
+                required:
+                - data
+        '401':
+          description: unauthorized
   "/registrations":
     post:
       summary: Creates a registration
