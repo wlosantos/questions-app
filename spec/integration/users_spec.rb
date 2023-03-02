@@ -130,4 +130,92 @@ describe 'Users API' do
       end
     end
   end
+
+  # update user
+  path '/users/{id}' do
+    put 'Update user' do
+      tags 'Users'
+      security [Bearer: []]
+
+      consumes 'application/json'
+      produces 'application/json'
+
+      parameter name: :id, in: :path, type: :string, required: true
+      parameter name: :participant, in: :body, schema: {
+        type: :object,
+        properties: {
+          user: {
+            type: :object,
+            properties: {
+              name: { type: :string },
+              username: { type: :string },
+              email: { type: :string },
+              password: { type: :string },
+              password_confirmation: { type: :string }
+            },
+            required: %w[name username email password password_confirmation]
+          }
+        },
+        required: %w[user]
+      }
+
+      response '200', 'user updated' do
+        schema type: :object,
+               properties: {
+                 data: {
+                   type: :object,
+                   properties: {
+                     id: { type: :string },
+                     type: { type: :string },
+                     attributes: {
+                       type: :object,
+                       properties: {
+                         name: { type: :string },
+                         username: { type: :string },
+                         email: { type: :string },
+                         role: { type: :string }
+                       },
+                       required: %w[name email username role]
+                     }
+                   },
+                   required: %w[id type attributes]
+                 }
+               },
+               required: %w[data]
+
+        let(:id) { user_id }
+        let(:participant) { { user: attributes_for(:user) } }
+        run_test!
+      end
+
+      response '401', 'unauthorized' do
+        let(:Authorization) { 'invalid token' }
+        let(:id) { user.id }
+        let(:participant) { { user: attributes_for(:user) } }
+        run_test!
+      end
+    end
+  end
+
+  # delete user
+  path '/users/{id}' do
+    delete 'Delete user' do
+      tags 'Users'
+      security [Bearer: []]
+
+      produces 'application/json'
+      parameter name: :id, in: :path, type: :string, required: true
+
+      response '204', 'user deleted' do
+        let(:id) { user_id }
+        run_test!
+      end
+
+      response '401', 'unauthorized' do
+        let(:Authorization) { 'invalid token' }
+        let(:id) { user.id }
+        run_test!
+      end
+    end
+  end
 end
