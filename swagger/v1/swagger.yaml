@@ -147,6 +147,41 @@ paths:
                   - name
               required:
               - subject
+  "/subjects/{id}":
+    put:
+      summary: Updates a subject
+      tags:
+      - Subjects
+      security:
+      - Bearer: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: subject updated
+        '401':
+          description: unauthorized
+        '422':
+          description: subject not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                subject:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                  required:
+                  - name
+              required:
+              - subject
 servers:
 - url: https://{defaultHost}
   variables:

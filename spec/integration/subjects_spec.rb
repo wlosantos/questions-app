@@ -1,6 +1,6 @@
 require 'swagger_helper'
 
-describe 'Subjects API', swagger_doc: 'v1/swagger.yaml' do
+describe 'Subjects API' do
   let(:user) { create(:user, :admin, name: 'Wendel Lopes', username: 'wendellopes') }
   let(:token) { JwtAuth::TokenProvider.issue_token({ email: user.email }) }
 
@@ -77,6 +77,53 @@ describe 'Subjects API', swagger_doc: 'v1/swagger.yaml' do
       response '401', 'unauthorized' do
         let(:Authorization) { '' }
         let(:subject) { { subject: attributes_for(:subject, name: 'Biologia') } }
+        run_test!
+      end
+    end
+  end
+
+  # update subject
+  path '/subjects/{id}' do
+    put 'Updates a subject' do
+      tags 'Subjects'
+      security [Bearer: []]
+
+      consumes 'application/json'
+      produces 'application/json'
+
+      parameter name: :id, in: :path, type: :integer
+      parameter name: :subject, in: :body, schema: {
+        type: :object,
+        properties: {
+          subject: {
+            type: :object,
+            properties: {
+              name: { type: :string }
+            },
+            required: %w[name]
+          }
+        },
+        required: %w[subject]
+      }
+
+      response '200', 'subject updated' do
+        let(:Authorization) { "Bearer #{token}" }
+        let(:id) { create(:subject).id }
+        let(:subject) { { subject: attributes_for(:subject, name: 'Biologia') } }
+        run_test!
+      end
+
+      response '401', 'unauthorized' do
+        let(:Authorization) { '' }
+        let(:id) { create(:subject).id }
+        let(:subject) { { subject: attributes_for(:subject, name: 'Biologia') } }
+        run_test!
+      end
+
+      response '422', 'subject not found' do
+        let(:Authorization) { "Bearer #{token}" }
+        let(:id) { create(:subject).id }
+        let(:subject) { { subject: attributes_for(:subject, name: nil) } }
         run_test!
       end
     end
