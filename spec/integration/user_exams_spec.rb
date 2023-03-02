@@ -109,4 +109,67 @@ describe 'UserExams API' do
       end
     end
   end
+
+  # create user_exam
+  path '/user_exams' do
+    post 'Create user_exam' do
+      tags 'User Exams'
+      security [Bearer: []]
+
+      consumes 'application/json'
+      produces 'application/json'
+
+      parameter name: :user_exam, in: :body, schema: {
+        type: :object,
+        properties: {
+          user_exam: {
+            type: :object,
+            properties: {
+              exam_id: { type: :integer }
+            },
+            required: %w[exam-id]
+          }
+        },
+        required: %w[user-exam]
+      }
+
+      response '200', 'user_exam created' do
+        schema type: :object,
+               properties: {
+                 data: {
+                   type: :object,
+                   properties: {
+                     id: { type: :string },
+                     type: { type: :string },
+                     attributes: {
+                       type: :object,
+                       properties: {
+                         exam_id: { type: :integer },
+                         theme: { type: :string },
+                         score: { type: :float }
+                       },
+                       required: %w[exam-id theme score]
+                     }
+                   },
+                   required: %w[id type attributes]
+                 }
+               },
+               required: %w[data]
+
+        let(:user_exam) { { user_id: user.id, exam_id: exam.id, score: 0 } }
+        run_test!
+      end
+
+      response '422', 'invalid request' do
+        let(:user_exam) { { user_id: user.id, exam_id: nil } }
+        run_test!
+      end
+
+      response '401', 'unauthorized' do
+        let(:Authorization) { nil }
+        let(:user_exam) { { user_id: user.id, exam_id: exam.id, score: 0 } }
+        run_test!
+      end
+    end
+  end
 end

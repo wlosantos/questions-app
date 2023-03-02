@@ -1167,6 +1167,66 @@ paths:
                 - data
         '401':
           description: unauthorized
+    post:
+      summary: Create user_exam
+      tags:
+      - User Exams
+      security:
+      - Bearer: []
+      parameters: []
+      responses:
+        '200':
+          description: user_exam created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                      attributes:
+                        type: object
+                        properties:
+                          exam_id:
+                            type: integer
+                          theme:
+                            type: string
+                          score:
+                            type: float
+                        required:
+                        - exam-id
+                        - theme
+                        - score
+                    required:
+                    - id
+                    - type
+                    - attributes
+                required:
+                - data
+        '422':
+          description: invalid request
+        '401':
+          description: unauthorized
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_exam:
+                  type: object
+                  properties:
+                    exam_id:
+                      type: integer
+                  required:
+                  - exam-id
+              required:
+              - user-exam
   "/user_exams/{id}":
     get:
       summary: Show user_exam
