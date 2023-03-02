@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :user_answer do
     user_exam
-    quenstion_ref { user_exam.questions.first.id }
-    answer { user_exam.questions.first.answers.first.id }
+    question_ref { 1 }
+    answer { 1 }
     trusty { false }
   end
 end

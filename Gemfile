@@ -38,6 +38,9 @@ group :development, :test do
   # Linting tools
   gem 'rubocop'
   gem 'rubocop-rails'
+
+  # documentation rest api
+  gem 'rswag'
 end
 
 group :test do

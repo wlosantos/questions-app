@@ -67,6 +67,27 @@ RSpec.describe "Api::V1::UserExams", type: :request do
     end
   end
 
+  describe 'PUT /user_exams/:id' do
+    let!(:question) { create(:question, exam:) }
+    let!(:answer) { create_list(:answer, 3, question:) }
+    let!(:user_exam) { create(:user_exam, user:, exam:) }
+    let!(:user_answer) { create(:user_answer, question_ref: question.id, answer: answer.first.id, user_exam:) }
+
+    before { put "/user_exams/#{user_exam.id}", params: user_answer_params.to_json, headers: }
+
+    context 'when params are valid' do
+      let(:user_answer_params) do
+        { user_answer: [
+          { question: question.id, answer: answer.last.id }
+        ] }
+      end
+
+      it 'returns success status' do
+        expect(response).to have_http_status(:ok)
+      end
+    end
+  end
+
   describe 'DELETE /user_exams/:id' do
     let!(:user_exam) { create(:user_exam, user:, exam:) }
     before { delete "/user_exams/#{user_exam.id}", params: {}, headers: }

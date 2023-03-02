@@ -26,7 +26,7 @@ module Api
         if answer
           render json: @user_exam, serializer: UserExamSerializer, show_detail: true, status: :ok
         else
-          render json: { errors: answer.errors }, status: :unprocessable_entity
+          head :unprocessable_entity
         end
       end
 
