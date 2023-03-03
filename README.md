@@ -15,6 +15,7 @@ O Question-Api é um projeto de API Webserver construído em Rails 7 api-only, c
 * Cada prova poderá ter quantas perguntas forem nessárias;
 * Cada pergunta, sendo de multipla escolha, poderá ter várias opções, sendo que apenas uma irá conter o recurso de verdairo;
 
+<img src="https://github.com/wlosantos/questions-app/blob/develop/public/fractal_dbase.png" width="550" />
 
 3) ### Apesar da simplicidade do sistema ele segue uma ordem lógica de uso:
 - Criar uma coleção de matérias (Subject), toda prova precisa de uma matéria;
