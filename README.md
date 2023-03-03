@@ -3,8 +3,10 @@
 O Question-Api é um projeto de API Webserver construído em Rails 7 api-only, com authenticação de Token (jwt) que tem como objetivo oferecer uma Api server para criar e gerenciar provas. Com essa API, os administradores criarão provas de multiplas escolhas onde os usuários podem escolher as provas disponível e realiazarem os teste. Os participantes poderão editar as respostas, o que alterá o score final dessa prova. A cada questão poderão quantas opções os administradores definirem. Toda prova terá uma pontuação máxima de 10, o que será divida pela quantidade de perguntas adicionadas pelos administradores.
 
 ### Como usar essa Api:
-1) ### Criar um administrador 
-* Com o sistema rodando, um usuário deve ser criado. Todo os usuário criação são categorizados automaticamente como 'Participante' podendo apenas gerenciar sua conta e suas provas. Como primeiro usuário, para se tornar administrador você deve entrar no terminal, localizado seu cadastro para se tornar administrador use o seguinte código: 
+1) ### Criar um administrador
+* Para a criação de usuário no endpoint Registration funciona como um Sign-up para o usuário;
+* Depois de cadastrado com um formulário de login e senha o endpoint Session faz a identificação e gera o token;
+* Com o sistema rodando, todo os usuário criação são categorizados automaticamente como 'Participante' podendo apenas gerenciar sua conta e suas provas; * Como primeiro usuário, para se tornar administrador você deve entrar no terminal, localizado seu cadastro para se tornar administrador use o seguinte código: 
 ```ruby
   User.first.add_role :admin 
 ```
