@@ -31,4 +31,4 @@ O Question-Api é um projeto de API Webserver construído em Rails 7 api-only, c
 5) ### Documentação dos Endpoint's
 - Dentro do sistema há o link <b>http://localhost:3000/api-docs</b> com a documentação (swagger) com todos os endpoint do sistema:
 
-
+<img src="https://github.com/wlosantos/questions-app/blob/develop/public/fractal_swagger.png" />
