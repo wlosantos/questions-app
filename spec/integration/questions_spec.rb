@@ -198,6 +198,12 @@ describe 'Questions API' do
         let(:question) { { question: { ask: '' } } }
         run_test!
       end
+
+      response '404', 'exam blocked' do
+        let(:Authorization) { "Bearer #{token}" }
+        let(:exam_id) { create(:exam, :blocked) }
+        let(:question) { { question: { ask: 'What is the capital of Brazil?' } } }
+      end
     end
   end
 
