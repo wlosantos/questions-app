@@ -3,6 +3,7 @@ class Question < ApplicationRecord
   has_many :answers, dependent: :destroy
 
   validates :ask, presence: true
+  before_validation :blocked_new_question, on: :create
 
   after_initialize :basic_response
 
@@ -20,5 +21,13 @@ class Question < ApplicationRecord
     return unless answers.empty?
 
     answers.build(response: 'none of the alternatives!', corrected: true)
+  end
+
+  def blocked_new_question
+    return false if exam.nil?
+    return true unless exam.blocked?
+
+    errors.add(:base, 'You cannot add a new question to this exam') if exam.blocked?
+    false
   end
 end

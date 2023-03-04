@@ -21,10 +21,23 @@ RSpec.describe Question, type: :model do
   end
 
   describe 'create question' do
-    let(:question) { build(:question) }
+    context 'when exam not is blocked' do
+      let(:question) { build(:question) }
 
-    it 'creates a question' do
-      expect(question).to be_valid
+      it 'creates a question' do
+        expect(question).to be_valid
+      end
+    end
+
+    context 'when exam is blocked' do
+      let(:exam) { create(:exam, :blocked) }
+      let(:question) { build(:question, exam:) }
+
+      before { question.save }
+
+      it 'does not create a question' do
+        expect(question).not_to be_valid
+      end
     end
   end
 end

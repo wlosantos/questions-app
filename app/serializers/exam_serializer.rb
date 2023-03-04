@@ -1,5 +1,5 @@
 class ExamSerializer < ActiveModel::Serializer
-  attributes :id, :theme, :subject, :status, :created, :finished
+  attributes :id, :theme, :subject, :status, :created, :blocked, :finished
 
   def subject
     object.subject.name
