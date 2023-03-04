@@ -4,7 +4,7 @@ describe 'UserExams API' do
   let(:user) { create(:user, name: 'Nadia Nunes', username: 'nnunes') }
   let(:token) { JwtAuth::TokenProvider.issue_token({ email: user.email }) }
   let(:Authorization) { "Bearer #{token}" }
-  let(:exam) { create(:exam) }
+  let(:exam) { create(:exam, :approved) }
   let(:user_exam) { create(:user_exam, exam:, user:) }
 
   let(:question) { create(:question, exam:) }

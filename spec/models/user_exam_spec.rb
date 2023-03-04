@@ -16,23 +16,34 @@ RSpec.describe UserExam, type: :model do
   end
 
   describe 'be valid user_exam' do
-    let(:user) { create(:user) }
-    let(:exam) { create(:exam, :approved) }
-    let(:user_exam) { create(:user_exam, user:, exam:) }
+    let!(:participant) { create(:user) }
+    let!(:exam) { create(:exam, :approved) }
+    let(:user_exam) { build(:user_exam, user: participant, exam:) }
 
     it 'should be valid' do
       expect(user_exam).to be_valid
     end
   end
 
-  describe 'when user exam exist' do
-    let(:user) { create(:user) }
-    let(:exam) { create(:exam, :approved) }
-    let(:user_exam) { create(:user_exam, user:, exam:) }
+  describe 'create user_exam' do
+    context 'successfully' do
+      let!(:participant) { create(:user) }
+      let!(:exam) { create(:exam, :approved) }
+      let(:user_exam) { create(:user_exam, user: participant, exam:) }
 
-    it 'should be invalid' do
-      expect(user_exam).to be_valid
-      expect { create(:user_exam, user:, exam:) }.to raise_error(ActiveRecord::RecordInvalid)
+      it 'should be valid' do
+        expect(user_exam).to be_valid
+      end
+    end
+
+    context 'when exam not is approved' do
+      let!(:participant) { create(:user) }
+      let!(:exam) { create(:exam) }
+      let(:user_exam) { build(:user_exam, user: participant, exam:) }
+
+      it 'should be invalid' do
+        expect(user_exam).to be_invalid
+      end
     end
   end
 end
