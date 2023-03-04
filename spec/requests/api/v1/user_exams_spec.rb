@@ -67,8 +67,8 @@ RSpec.describe "Api::V1::UserExams", type: :request do
     end
 
     context 'when exam finished' do
-      let!(:exam_finished) { create(:exam, finished: Time.now - 1.days) }
-      let(:user_exam_params) { attributes_for(:user_exam, user_id: user.id, exam: exam_finished) }
+      let!(:exam_finished) { create(:exam, finished: Time.now) }
+      let(:user_exam_params) { attributes_for(:user_exam, user_id: user.id, exam: Exam.find(exam_finished.id)) }
 
       it 'returns unprocessable entity status' do
         expect(response).to have_http_status(:unprocessable_entity)

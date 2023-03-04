@@ -6,7 +6,7 @@ class UserExam < ApplicationRecord
   after_commit :set_exam_with_questions, on: :create
   before_validation :set_score, on: :create
   before_validation :record_exist, on: :create
-  before_validation :exam_finished, on: :update
+  before_validation :exam_finished, on: :create
 
   private
 
@@ -19,7 +19,11 @@ class UserExam < ApplicationRecord
   end
 
   def exam_finished
-    errors.add(:exam, 'has already finished') if exam.finished?
+    return false if exam.nil?
+    return true if exam.finished.nil? || exam.finished.blank?
+
+    errors.add(:exam, 'has already finished') if exam.finished.present?
+    false
   end
 
   def set_score

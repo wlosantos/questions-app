@@ -12,6 +12,7 @@ RSpec.describe UserExam, type: :model do
   describe 'associations' do
     it { is_expected.to belong_to(:user) }
     it { is_expected.to belong_to(:exam) }
+    it { is_expected.to have_many(:user_answers).dependent(:destroy) }
   end
 
   describe 'be valid user_exam' do
