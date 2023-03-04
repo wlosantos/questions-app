@@ -1,7 +1,8 @@
-# Question-Api
+# Bem-vindo ao questions-app
 
-O Question-Api é um projeto de API Webserver construído em Rails 7 api-only, com authenticação de Token (jwt) que tem como objetivo oferecer uma Api server para criar e gerenciar provas. Com essa API, os administradores criarão provas de multiplas escolhas onde os usuários podem escolher as provas disponível e realiazarem os teste. Os participantes poderão editar as respostas, o que alterá o score final dessa prova. A cada questão poderão quantas opções os administradores definirem. Toda prova terá uma pontuação máxima de 10, o que será divida pela quantidade de perguntas adicionadas pelos administradores.
+Este webserver-api é um servidor de provas e testes construído com Rails 7 API-only e outros recursos de autorização e autenticação! Com ele, você pode criar, gerenciar e participar de provas com facilidade. Com dois tipos de usuários - administrador e participante - nossos recursos são adaptados às necessidades específicas de cada um. 
 
+<<<<<<< HEAD
 ### Como usar essa Api:
 1) ### Criar um administrador
 * Para a criação de usuário no endpoint Registration funciona como um sign-up padrão para o usuário;
@@ -22,28 +23,13 @@ O Question-Api é um projeto de API Webserver construído em Rails 7 api-only, c
    }
 } 
 ```
+=======
+Os administradores têm o poder de criar provas personalizadas, com perguntas e opções de múltiplas escolhas, além de gerenciar o acesso a estas provas pelos participantes. Eles podem monitorar a construção da prova, perguntas e suas opções de respostas, e só depois libera-las para acesso.
+>>>>>>> develop
 
-1) ### Como administrador você terá acesso a todoas as funcionalidades (endpoint's) da Api que contam com os seguinte recursos:
-* Criação, edição e exclusão de Provas, Questões e Opções de respostas;
-* Cada um desses recursos possuem paginação e ordenação;
-* Cada prova poderá ter quantas perguntas forem nessárias;
-* Cada pergunta, sendo de multipla escolha, poderá ter várias opções, sendo que apenas uma irá conter o recurso de verdairo;
+Por outro lado, os participantes podem se concentrar nas provas disponíveis, e ao escolher uma delas, ela ficará disponível para ele responder e até editar suas respostas. Após a conclusão da prova ele já terá acesso ao resultado final de acúmulo de pontos para este prova. Além do participante poder realizar as provas, todas as provas que ele realizar ficará registrada em seu histórico, podem assim editar qualquer uma delas. Cada participante só tem acesso as suas provas.
 
-<img src="https://github.com/wlosantos/questions-app/blob/develop/public/fractal_dbase.png" width="550" />
+Com esse webserver-api o processo de criação, gerenciamento e participação em provas nunca foi tão fácil.
 
-3) ### Apesar da simplicidade do sistema ele segue uma ordem lógica de uso:
-- Criar uma coleção de matérias (Subject), toda prova precisa de uma matéria;
-- Criar a prova (Exam);
-- Criar perguntas (Question) que estarão ligadas a prova;
-- Criar as opções de respostas (Answer) para cada pergunta. Obs.: Quando se cria uma pergunta (Question) é criada automática uma resposta padrão (nenhuma das alternativas) como verdadeira. Quando se cria uma nova opção e ela é marcada como verdadeira é feita a troca automática, deixando apenas uma opção como true;
-- Podem ser criadas quantas opções de respostas forem necessárias;
-
-4) ### Respondendo uma prova
-- Todas as provas criadas estarão disponível em uma lista onde o usuário poderá escolher uma e gerar uma prova excluivamente dele para responder;
-- Esta prova gerada fará parte de uma lista esclusiva desse usuário, onde ao responder será gerado um score do resultado dessa prova;
-- Todas as provas do usuário estará disponível para edição, o que irá alterar o score da prova dependendo dos acertos e erros;
-
-5) ### Documentação dos Endpoint's
-- Dentro do sistema há o link <b>http://localhost:3000/api-docs</b> com a documentação (swagger) com todos os endpoint do sistema:
-
-<img src="https://github.com/wlosantos/questions-app/blob/develop/public/fractal_swagger.png" />
+### Veja como funciona:
+[Wiki](https://github.com/wlosantos/questions-app/wiki)
