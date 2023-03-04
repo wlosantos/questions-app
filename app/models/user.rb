@@ -10,6 +10,14 @@ class User < ApplicationRecord
 
   after_create :assign_default_role
 
+  def send_change_role
+    if has_role? :admin
+      remove_role :admin
+    else
+      add_role :admin
+    end
+  end
+
   def self.ransackable_attributes(_auth_object = nil)
     %w[email name username]
   end

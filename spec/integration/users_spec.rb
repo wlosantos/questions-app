@@ -219,4 +219,41 @@ describe 'Users API' do
       end
     end
   end
+
+  path '/users/change_role_admin' do
+    post 'Change role admin' do
+      tags 'Users'
+      security [Bearer: []]
+
+      consumes 'application/json'
+
+      parameter name: :user_id, in: :body, schema: {
+        type: :object,
+        properties: {
+          user_id: { type: :integer }
+        },
+        required: %w[user_id]
+      }
+
+      response '204', 'role changed' do
+        let(:Authorization) { "Bearer #{token}" }
+        let(:account) { create(:user, :participant) }
+        let(:user_id) { { user_id: account.id } }
+        run_test!
+      end
+
+      response '401', 'unauthorized' do
+        let(:Authorization) { 'invalid token' }
+        let(:account) { create(:user, :participant) }
+        let(:user_id) { { user_id: account.id } }
+        run_test!
+      end
+
+      response '404', 'Not Authorization' do
+        let(:account) { User.first }
+        let(:user_id) { { user_id: account.id } }
+        run_test!
+      end
+    end
+  end
 end

@@ -8,6 +8,8 @@ Rails.application.routes.draw do
       resource :registrations, only: [:create]
       resource :sessions, only: [:create]
       resources :users, only: [:index, :show, :update, :destroy]
+      post '/users/change_role_admin', to: 'users#change_role_admin', as: :change_role_admin
+
       resources :subjects, only: [:index, :create, :update, :destroy]
       resources :exams, only: [:index, :show, :create, :update, :destroy] do
         resources :questions, only: [:show, :create]

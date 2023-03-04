@@ -1767,6 +1767,31 @@ paths:
           description: user deleted
         '401':
           description: unauthorized
+  "/users/change_role_admin":
+    post:
+      summary: Change role admin
+      tags:
+      - Users
+      security:
+      - Bearer: []
+      parameters: []
+      responses:
+        '204':
+          description: role changed
+        '401':
+          description: unauthorized
+        '404':
+          description: Not Authorization
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+              required:
+              - user_id
 servers:
 - url: https://{defaultHost}
   variables:
