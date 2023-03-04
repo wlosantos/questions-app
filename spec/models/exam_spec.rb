@@ -26,8 +26,20 @@ RSpec.describe Exam, type: :model do
     let(:subject) { create(:subject) }
     let(:exam) { create(:exam, subject:) }
 
-    it 'creates exam' do
-      expect(exam).to be_valid
+    context 'when is valid' do
+      it { expect(exam).to be_valid }
+    end
+
+    context 'when is invalid' do
+      let(:exam) { build(:exam, theme: nil) }
+
+      it { expect(exam).to be_invalid }
+    end
+
+    context 'when is finished' do
+      let(:exam) { create(:exam, finished: Time.now) }
+
+      it { expect(exam.finished?).to be_truthy }
     end
   end
 end

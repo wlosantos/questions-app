@@ -65,6 +65,19 @@ RSpec.describe "Api::V1::UserExams", type: :request do
         expect(json_body).to have_key(:errors)
       end
     end
+
+    context 'when exam finished' do
+      let!(:exam_finished) { create(:exam, finished: Time.now - 1.days) }
+      let(:user_exam_params) { attributes_for(:user_exam, user_id: user.id, exam: exam_finished) }
+
+      it 'returns unprocessable entity status' do
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'returns the json data for the errors' do
+        expect(json_body).to have_key(:errors)
+      end
+    end
   end
 
   describe 'PUT /user_exams/:id' do

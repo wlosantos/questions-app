@@ -6,6 +6,7 @@ class UserExam < ApplicationRecord
   after_commit :set_exam_with_questions, on: :create
   before_validation :set_score, on: :create
   before_validation :record_exist, on: :create
+  before_validation :exam_finished, on: :update
 
   private
 
@@ -15,6 +16,10 @@ class UserExam < ApplicationRecord
 
   def record_exist
     errors.add(:user_exam, 'already exists') if UserExam.exists?(user:, exam:)
+  end
+
+  def exam_finished
+    errors.add(:exam, 'has already finished') if exam.finished?
   end
 
   def set_score
