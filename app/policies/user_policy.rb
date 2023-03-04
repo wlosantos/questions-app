@@ -14,4 +14,8 @@ class UserPolicy < ApplicationPolicy
   def destroy?
     permissions? || user == record
   end
+
+  def change_role_admin?
+    permissions?
+  end
 end

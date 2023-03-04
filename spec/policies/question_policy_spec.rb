@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe QuestionPolicy, type: :policy do
+  let!(:admin) { create(:user, :admin) }
   let(:user) { create(:user) }
   let(:user2) { create(:user) }
   let(:question) { create(:question, user:) }
