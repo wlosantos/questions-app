@@ -52,7 +52,7 @@ module Api
       end
 
       def exam_params
-        params.require(:exam).permit(:theme, :subject_id, :finished)
+        params.require(:exam).permit(:theme, :subject_id, :blocked, :finished)
       end
     end
   end

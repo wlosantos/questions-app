@@ -65,6 +65,15 @@ RSpec.describe "Api::V1::Questions", type: :request do
         expect(json_body[:errors][:ask]).to include("can't be blank")
       end
     end
+
+    context 'when exam is blocked' do
+      let(:exam) { create(:exam, :blocked) }
+      let(:question_params) { attributes_for(:question, exam_id: exam.id) }
+
+      it 'returns unprocessable entity status' do
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end
   end
 
   describe 'PUT /questions/:id' do
