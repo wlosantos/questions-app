@@ -10,16 +10,16 @@ O Question-Api é um projeto de API Webserver construído em Rails 7 api-only, c
 * Como o gerencimanto e administração só pode ser data se o usuário for admin, o sistema cadastrará e idenficará automaticamente o primeiro cadastrado como participante e Admin;  
 ```json
 {
-	"data": {
-		"id": "1",
-		"type": "users",
-		"attributes": {
-			"name": "Wendel Lopes",
-			"email": "wendelopes@email.com",
-			"username": "lednew",
-			"role": "participant, admin"
-		}
-	}
+  "data": {
+    "id": "1",
+    "type": "users",
+    "attributes": {
+      "name": "Wendel Lopes",
+      "email": "wendelopes@email.com",
+      "username": "lednew",
+      "role": "participant, admin"
+     }
+   }
 } 
 ```
 
