@@ -81,10 +81,18 @@ RSpec.describe User, type: :model do
     end
 
     context 'with participant role' do
-      let(:user) { create(:user) }
+      let(:user) { create(:user, :participant) }
 
       it 'should create user with participant role' do
         expect(user.has_role?(:participant)).to be_truthy
+      end
+    end
+
+    context 'with first user is admin' do
+      let(:user) { create(:user) }
+
+      it 'should create user with admin role' do
+        expect(user.has_role?(:admin)).to be_truthy
       end
     end
   end

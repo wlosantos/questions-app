@@ -17,6 +17,7 @@ class User < ApplicationRecord
   private
 
   def assign_default_role
+    add_role(:admin) if User.count == 1
     add_role(:participant) if roles.blank?
   end
 end

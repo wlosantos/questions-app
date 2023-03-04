@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Users API', type: :request do
   before { host! 'api.questions-api.io' }
+  let!(:admin) { create(:user, :admin) }
   let!(:user) { create(:user, name: 'Wendel Lopes', username: 'wendellopes') }
   let!(:token) { JwtAuth::TokenProvider.issue_token({ email: user.email }) }
   let(:headers) do
@@ -24,7 +25,7 @@ RSpec.describe 'Users API', type: :request do
       end
 
       it 'returns all users' do
-        expect(json_body[:data].size).to eq(1)
+        expect(json_body[:data].size).to eq(2)
       end
     end
 

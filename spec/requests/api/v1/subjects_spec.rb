@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "Api::V1::Subjects", type: :request do
   before { host! 'api.questions-api.io' }
+  let!(:admin) { create(:user, :admin) }
   let!(:user) { create(:user, :admin, name: 'Wendel Lopes', username: 'wendellopes') }
   let!(:token) { JwtAuth::TokenProvider.issue_token({ email: user.email }) }
   let(:headers) do
