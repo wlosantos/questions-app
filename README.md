@@ -9,4 +9,24 @@ Por outro lado, os participantes podem se concentrar nas provas disponíveis, e 
 Com esse webserver-api o processo de criação, gerenciamento e participação em provas nunca foi tão fácil.
 
 ### Veja como funciona:
-[Wiki](https://github.com/wlosantos/questions-app/wiki)
+[Wiki-documentação](https://github.com/wlosantos/questions-app/wiki)
+
+### Recursos
+* Rails 7 api-only
+* JWT - autenticação
+* Rolify - Gerenciamento de classificação de usuários
+* Pundit - Gerenciamento de autorizações
+* Kaminary - Paginação
+* Ransack - Consultas e ordenação
+* rswag - Documentação dos endpoints
+* Rspec - Testes unitários e de integração
+
+### Recursos Auxiliares
+* Docker
+* Docker-compose
+* Insomnia (Arquivo json com os endpoint para o Insomnia na pasta public)
+* diagram.io - Database
+
+<img src="https://github.com/wlosantos/questions-app/blob/develop/public/fractal_dbase.png" width="650" />
+
+
