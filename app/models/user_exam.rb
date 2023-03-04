@@ -7,6 +7,7 @@ class UserExam < ApplicationRecord
   before_validation :set_score, on: :create
   before_validation :record_exist, on: :create
   before_validation :exam_finished, on: :create
+  before_validation :exam_approved, on: :create
 
   private
 
@@ -23,6 +24,14 @@ class UserExam < ApplicationRecord
     return true if exam.finished.nil? || exam.finished.blank?
 
     errors.add(:exam, 'has already finished') if exam.finished.present?
+    false
+  end
+
+  def exam_approved
+    return false if exam.nil?
+    return true if exam.status == :approved
+
+    errors.add(:exam, 'has not been approved yet') if exam.status == :approved
     false
   end
 

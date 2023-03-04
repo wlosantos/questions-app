@@ -17,7 +17,7 @@ RSpec.describe UserExam, type: :model do
 
   describe 'be valid user_exam' do
     let(:user) { create(:user) }
-    let(:exam) { create(:exam) }
+    let(:exam) { create(:exam, :approved) }
     let(:user_exam) { create(:user_exam, user:, exam:) }
 
     it 'should be valid' do
@@ -27,7 +27,7 @@ RSpec.describe UserExam, type: :model do
 
   describe 'when user exam exist' do
     let(:user) { create(:user) }
-    let(:exam) { create(:exam) }
+    let(:exam) { create(:exam, :approved) }
     let(:user_exam) { create(:user_exam, user:, exam:) }
 
     it 'should be invalid' do
