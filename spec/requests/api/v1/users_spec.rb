@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Users API', type: :request do
   before { host! 'api.questions-api.io' }
+  let!(:admin) { create(:user, :admin) }
   let!(:user) { create(:user, name: 'Wendel Lopes', username: 'wendellopes') }
   let!(:token) { JwtAuth::TokenProvider.issue_token({ email: user.email }) }
   let(:headers) do
@@ -24,7 +25,7 @@ RSpec.describe 'Users API', type: :request do
       end
 
       it 'returns all users' do
-        expect(json_body[:data].size).to eq(1)
+        expect(json_body[:data].size).to eq(2)
       end
     end
 
@@ -98,6 +99,39 @@ RSpec.describe 'Users API', type: :request do
 
     it 'removes the user from database' do
       expect(User.find_by(id: user.id)).to be_nil
+    end
+  end
+
+  describe 'POST /users/change_role_admin' do
+    context 'change role to admin' do
+      let!(:participant) { create(:user, :participant) }
+      before do
+        user.add_role :admin
+        post '/users/change_role_admin', params: { user_id: participant.id }.to_json, headers:
+      end
+
+      it 'returns success status' do
+        expect(response).to have_http_status(:no_content)
+      end
+
+      it 'changes the user role to admin' do
+        expect(participant.reload.has_role?(:admin)).to be_truthy
+      end
+    end
+
+    context 'change role of first user' do
+      before do
+        user.add_role :admin
+        post '/users/change_role_admin', params: { user_id: User.first.id }.to_json, headers:
+      end
+
+      it 'returns not found status' do
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it 'returns error message' do
+        expect(json_body[:errors]).to eq('User not found')
+      end
     end
   end
 end

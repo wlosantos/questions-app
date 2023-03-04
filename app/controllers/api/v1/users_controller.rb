@@ -35,6 +35,17 @@ module Api
         head 204
       end
 
+      def change_role_admin
+        authorize current_user
+        user = User.find_by(id: params[:user_id])
+        if user.present? && user != User.first
+          user.send_change_role
+          head 204
+        else
+          render json: { errors: 'User not found' }, status: :not_found
+        end
+      end
+
       private
 
       def set_user

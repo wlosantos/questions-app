@@ -1,6 +1,7 @@
 require 'swagger_helper'
 
 describe 'Users API' do
+  let!(:admin) { create(:user, :admin) }
   let(:user) { create(:user, :admin, name: 'Wendel Lopes', username: 'wendellopes') }
   let(:token) { JwtAuth::TokenProvider.issue_token({ email: user.email }) }
   let(:Authorization) { "Bearer #{token}" }
@@ -214,6 +215,43 @@ describe 'Users API' do
       response '401', 'unauthorized' do
         let(:Authorization) { 'invalid token' }
         let(:id) { user.id }
+        run_test!
+      end
+    end
+  end
+
+  path '/users/change_role_admin' do
+    post 'Change role admin' do
+      tags 'Users'
+      security [Bearer: []]
+
+      consumes 'application/json'
+
+      parameter name: :user_id, in: :body, schema: {
+        type: :object,
+        properties: {
+          user_id: { type: :integer }
+        },
+        required: %w[user_id]
+      }
+
+      response '204', 'role changed' do
+        let(:Authorization) { "Bearer #{token}" }
+        let(:account) { create(:user, :participant) }
+        let(:user_id) { { user_id: account.id } }
+        run_test!
+      end
+
+      response '401', 'unauthorized' do
+        let(:Authorization) { 'invalid token' }
+        let(:account) { create(:user, :participant) }
+        let(:user_id) { { user_id: account.id } }
+        run_test!
+      end
+
+      response '404', 'Not Authorization' do
+        let(:account) { User.first }
+        let(:user_id) { { user_id: account.id } }
         run_test!
       end
     end
