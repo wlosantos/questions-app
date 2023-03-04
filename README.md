@@ -4,14 +4,26 @@ O Question-Api é um projeto de API Webserver construído em Rails 7 api-only, c
 
 ### Como usar essa Api:
 1) ### Criar um administrador
-* Para a criação de usuário no endpoint Registration funciona como um Sign-up para o usuário;
+* Para a criação de usuário no endpoint Registration funciona como um sign-up padrão para o usuário;
 * Depois de cadastrado com um formulário de login e senha o endpoint Session faz a identificação e gera o token;
-* Com o sistema rodando, todo os usuário criação são categorizados automaticamente como 'Participante' podendo apenas gerenciar sua conta e suas provas; * Como primeiro usuário, para se tornar administrador você deve entrar no terminal, localizado seu cadastro para se tornar administrador use o seguinte código: 
-```ruby
-  User.first.add_role :admin 
+* Com o sistema rodando, todo os usuário criação são categorizados automaticamente como 'Participante' podendo apenas gerenciar sua conta e suas provas;
+* Como o gerencimanto e administração só pode ser data se o usuário for admin, o sistema cadastrará e idenficará automaticamente o primeiro cadastrado como participante e Admin;  
+```json
+{
+	"data": {
+		"id": "1",
+		"type": "users",
+		"attributes": {
+			"name": "Wendel Lopes",
+			"email": "wendelopes@email.com",
+			"username": "lednew",
+			"role": "participant, admin"
+		}
+	}
+} 
 ```
 
-2) ### Como administrador você terá acesso a todoas as funcionalidades (endpoint's) da Api que contam com os seguinte recursos:
+1) ### Como administrador você terá acesso a todoas as funcionalidades (endpoint's) da Api que contam com os seguinte recursos:
 * Criação, edição e exclusão de Provas, Questões e Opções de respostas;
 * Cada um desses recursos possuem paginação e ordenação;
 * Cada prova poderá ter quantas perguntas forem nessárias;
