@@ -29,9 +29,9 @@ class UserExam < ApplicationRecord
 
   def exam_approved
     return false if exam.nil?
-    return true if exam.status == 'approved'
+    return true if exam.approved?
 
-    errors.add(:exam, 'has not been approved yet') if exam.status != 'approved'
+    errors.add(:exam, 'has not been approved yet') if exam.pending?
     false
   end
 

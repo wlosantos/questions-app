@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :exam do
     theme { Faker::Lorem.sentence }
-    status { %i[pending waiting rejected].sample }
+    status { :pending }
     finished { nil }
     blocked { false }
     subject
