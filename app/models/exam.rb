@@ -4,7 +4,7 @@ class Exam < ApplicationRecord
   has_many :user_exam, dependent: :destroy
 
   validates :theme, presence: true
-  enum :status, %i[ pending approved ]
+  enum :status, %i[pending approved]
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[theme status]
