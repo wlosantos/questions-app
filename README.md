@@ -31,4 +31,4 @@ Com esse webserver-api o processo de criação, gerenciamento e participação e
 <img src="https://github.com/wlosantos/questions-app/blob/develop/public/fractal_dbase.png" width="650" />
 
 
-![download](https://img.shields.io/github/downloads/wlosantos/questions-app/total)
+[comment]: <> ![download](https://img.shields.io/github/downloads/wlosantos/questions-app/total)
