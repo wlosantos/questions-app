@@ -1,4 +1,5 @@
-# Bem-vindo ao questions-app ![example workflow](https://github.com/wlosantos/questions-app/actions/workflows/rubyonrails.yml/badge.svg)
+![example workflow](https://github.com/wlosantos/questions-app/actions/workflows/rubyonrails.yml/badge.svg)
+# Bem-vindo ao questions-app
 
 Este webserver-api é um servidor de provas e testes construído com Rails 7 API-only e outros recursos de autorização e autenticação! Com ele, você pode criar, gerenciar e participar de provas com facilidade. Com dois tipos de usuários - administrador e participante - nossos recursos são adaptados às necessidades específicas de cada um. 
 
