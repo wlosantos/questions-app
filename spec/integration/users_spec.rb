@@ -1,6 +1,7 @@
 require 'swagger_helper'
 
 describe 'Users API' do
+  before { host! 'question-api-arbon.ondigitalocean.app' }
   let!(:admin) { create(:user, :admin) }
   let(:user) { create(:user, :admin, name: 'Wendel Lopes', username: 'wendellopes') }
   let(:token) { JwtAuth::TokenProvider.issue_token({ email: user.email }) }

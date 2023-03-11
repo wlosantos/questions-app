@@ -1,6 +1,7 @@
 require 'swagger_helper'
 
 describe 'Exams API' do
+  before { host! 'question-api-arbon.ondigitalocean.app' }
   let(:user) { create(:user, :admin, name: 'Wendel Lopes', username: 'wendellopes') }
   let(:token) { JwtAuth::TokenProvider.issue_token({ email: user.email }) }
   let(:subject) { create(:subject, name: 'Teologia Sistemática') }

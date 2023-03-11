@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Api::V1::Exams", type: :request do
-  before { host! 'api.questions-api.io' }
+  before { host! 'question-api-arbon.ondigitalocean.app' }
   let!(:user) { create(:user, :admin, name: 'Wendel Lopes', username: 'wendellopes') }
   let!(:subject) { create(:subject) }
   let!(:token) { JwtAuth::TokenProvider.issue_token({ email: user.email }) }

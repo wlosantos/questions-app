@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Api::V1::Sessions", type: :request do
-  before { host! 'api.questions-api.io' }
+  before { host! 'question-api-arbon.ondigitalocean.app' }
 
   describe 'POST /sessions' do
     let(:user) { create(:user, :admin) }

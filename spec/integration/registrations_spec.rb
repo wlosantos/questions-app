@@ -1,6 +1,7 @@
 require 'swagger_helper'
 
 describe 'Registrations API' do
+  before { host! 'question-api-arbon.ondigitalocean.app' }
   path '/registrations' do
     post 'Creates a registration' do
       tags 'Registrations'

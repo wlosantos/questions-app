@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Api::V1::Registrations", type: :request do
-  before { host! 'api.questions.io' }
+  before { host! 'question-api-arbon.ondigitalocean.app' }
   let(:headers) do
     {
       'Accept' => 'application/vnd.questions-api.v1',

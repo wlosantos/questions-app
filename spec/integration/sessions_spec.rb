@@ -1,6 +1,7 @@
 require 'swagger_helper'
 
 RSpec.describe 'Sessions Api' do
+  before { host! 'question-api-arbon.ondigitalocean.app' }
   let(:account) { create(:user, :admin) }
   let(:token) { JwtAuth::TokenProvider.issue_token({ email: account.email }) }
 

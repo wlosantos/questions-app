@@ -1,6 +1,7 @@
 require 'swagger_helper'
 
 describe 'UserExams API' do
+  before { host! 'question-api-arbon.ondigitalocean.app' }
   let(:user) { create(:user, name: 'Nadia Nunes', username: 'nnunes') }
   let(:token) { JwtAuth::TokenProvider.issue_token({ email: user.email }) }
   let(:Authorization) { "Bearer #{token}" }
